@@ -13,23 +13,29 @@ from kivy.uix.textinput import TextInput
 import serial
 import ast
 import re
-
+import sys
 
 import random
 import string
 
 
-ser = serial.Serial(
-    port='/dev/ttyS0',  # Replace with your serial port
-    baudrate=115200,
-    timeout=1
-)
-
 
 
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
 Window.size = (800, 480)
+debug_mode = '-d' in sys.argv
 #Window.fullscreen = 'auto'
+
+
+if debug_mode:
+    print("DEBUG MODE - NO UART CONNECTED")
+else:  
+    ser = serial.Serial(
+        port='/dev/tty0',  # Replace with your serial port
+        baudrate=115200,
+        timeout=1
+    )
+
 
 class PushButton(Button):
     def __init__(self, text, color, id, **kwargs):
@@ -41,7 +47,8 @@ class PushButton(Button):
     def on_press(self):
         message = f"{self.id},1"
         print(message)
-        ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
 
 
 class ToggleButtonWidget(ToggleButton):
@@ -53,7 +60,8 @@ class ToggleButtonWidget(ToggleButton):
     def on_state(self, widget, value):
         message = f"{self.id},{value}"
         print(message)
-        ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
 
 
 
@@ -80,7 +88,8 @@ class SliderWidget(BoxLayout):
         rounded_value = round(value, 2)
         message = f"{self.slider.id},{rounded_value}"
         print(message)
-        ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
         self.value_label.text = f"Value: {rounded_value}"
  
 
