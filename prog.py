@@ -10,7 +10,7 @@ from kivy.graphics import Rectangle, Color
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
-import serial
+#import serial
 import ast
 import re
 import sys
@@ -18,7 +18,7 @@ import sys
 import random
 import string
 
-
+import platform
 
 
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
@@ -27,14 +27,26 @@ debug_mode = '-d' in sys.argv
 #Window.fullscreen = 'auto'
 
 
+if platform.system() == 'Windows':
+    print("Running on Windows")
+    debug_mode = True  # Automatically enable debug mode on Windows
+
 if debug_mode:
     print("DEBUG MODE - NO UART CONNECTED")
-else:  
-    ser = serial.Serial(
-        port='/dev/tty0',  # Replace with your serial port
-        baudrate=115200,
-        timeout=1
-    )
+else:
+    if platform.system() == 'Linux':  # Assuming Raspberry Pi is running Linux
+        import serial  # Import serial module only if not in debug mode
+
+        try:
+            ser = serial.Serial(
+                port='/dev/tty0',  # Replace with your serial port
+                baudrate=115200,
+                timeout=1
+            )
+        except serial.SerialException as e:
+            print(f"Error opening serial port: {e}")
+    else:
+        print("This script is not running on a supported system for UART.")
 
 
 class PushButton(Button):
