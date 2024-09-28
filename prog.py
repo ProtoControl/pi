@@ -13,57 +13,17 @@ from kivy.uix.textinput import TextInput
 import serial
 import ast
 import re
-# ser = serial.Serial(
-#     port='/dev/ttyS0',  # Replace with your serial port
-#     baudrate=115200,
-#     timeout=1
-# )
+
 
 import random
 import string
 
-def generate_random_text(max_length=10):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(1, max_length)))
 
-def generate_random_color():
-    return tuple(random.choice([0, 1]) for _ in range(4))
-
-def generate_random_size_hint():
-    return (1, random.uniform(0, 0.2))
-
-def generate_constructor():
-    text = generate_random_text()
-    color = generate_random_color()
-    size_hint = generate_random_size_hint()
-    # Generate the constructor string
-    constructor_str = (f"PushButton,{text},{color},{size_hint}")
-    return constructor_str
-
-def dynamic_constructor(input_string):
-    # Use regex to extract the parts correctly
-    match = re.match(r'(\w+),(\w+),(\([^\)]+\)),(\([^\)]+\))', input_string)
-    
-    if not match:
-        raise ValueError(f"Input string format is invalid: {input_string}")
-    
-    class_name = match.group(1)  # Extract class name
-    text = match.group(2)        # Extract text
-    color_str = match.group(3)   # Extract color tuple string
-    size_hint_str = match.group(4)  # Extract size_hint tuple string
-
-    # Convert the string representations of tuples into actual tuples
-    color = ast.literal_eval(color_str)
-    size_hint = ast.literal_eval(size_hint_str)
-
-    # Dynamically get the class by its name and call the constructor
-    cls = globals().get(class_name)
-    if not cls:
-        raise ValueError(f"Class {class_name} not found!")
-
-    # Instantiate the class using the parsed arguments
-    instance = cls(text=text, color=color, size_hint=size_hint)
-    
-    return instance
+ser = serial.Serial(
+    port='/dev/ttyS0',  # Replace with your serial port
+    baudrate=115200,
+    timeout=1
+)
 
 
 
@@ -72,33 +32,33 @@ Window.size = (800, 480)
 #Window.fullscreen = 'auto'
 
 class PushButton(Button):
-    def __init__(self, text, color, **kwargs):
+    def __init__(self, text, color, id, **kwargs):
         super(PushButton, self).__init__(**kwargs)
         self.text = text
         self.background_color = color
-        #self.location = self.assign(self.x, self.y)
+        self.id = id
 
     def on_press(self):
-        #Also Print to uart
-        print(f"{self.text}1")
+        message = f"{self.id},1"
+        print(message)
+        ser.write(message.encode('utf-8'))
 
 
 class ToggleButtonWidget(ToggleButton):
-    def __init__(self, **kwargs):
+    def __init__(self,id,text, **kwargs):
         super(ToggleButtonWidget, self).__init__(**kwargs)
-        #self.location = self.assign(self.x, self.y)
         self.state = 'normal'
-
+        self.id = id
+        self.text = text
     def on_state(self, widget, value):
-        message = f"{self.text}{value}"
+        message = f"{self.id},{value}"
         print(message)
-
-        #ser.write(message.encode('utf-8'))
+        ser.write(message.encode('utf-8'))
 
 
 
 class SliderWidget(BoxLayout):
-    def __init__(self, text, min, max, **kwargs):
+    def __init__(self, text, min, max, id,**kwargs):
         super(SliderWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
 
@@ -109,6 +69,7 @@ class SliderWidget(BoxLayout):
         self.slider.text = text
         self.slider.min = min
         self.slider.max = max
+        self.slider.id = id
         self.value_label = Label(text=f"{text}: {min}", size_hint=(1, 0.2), font_size = '40sp')
         self.slider.bind(value=self.on_value_change)
 
@@ -117,18 +78,20 @@ class SliderWidget(BoxLayout):
 
     def on_value_change(self, instance, value):
         rounded_value = round(value, 2)
-        print(f"Slider Value: {rounded_value}")
+        message = f"{self.slider.id},{rounded_value}"
+        print(message)
+        ser.write(message.encode('utf-8'))
         self.value_label.text = f"Value: {rounded_value}"
  
 
 class ConsoleWidget(BoxLayout):
-    def __init__(self, label_text, **kwargs):
+    def __init__(self, text, id,**kwargs):
         super(ConsoleWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
         
         # Create a label at the top of the console
-        self.label = Label(text=label_text, size_hint=(1, 0.1), font_size='18sp')
-        
+        self.label = Label(text=text, size_hint=(1, 0.1), font_size='18sp')
+        self.id = id
         # Create a text input field to display the content (like a console log)
         self.content = TextInput(
             multiline=True,
@@ -153,10 +116,10 @@ class MyApp(App):
 
         
         # Create other functional widgets
-        toggle_button = ToggleButtonWidget(text="Toggle Button", size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
-        slider_widget = SliderWidget(text = "value", min=1, max=50, size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
-        push_button = PushButton(text = "press", color = (1,1,1,1), size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
-        console = ConsoleWidget(label_text="Toggle State", size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
+        toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
+        slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
+        push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
+        console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
 
         console.write_to_console(toggle_button.state)
         
