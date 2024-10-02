@@ -101,7 +101,7 @@ class SliderWidget(BoxLayout):
         rounded_value = round(value, 2)
         message = f"{self.slider.id},{rounded_value}"
         print(message)
-        if not debug_mode:
+        #if not debug_mode:
             #ser.write(message.encode('utf-8'))
         self.value_label.text = f"Value: {rounded_value}"
  
