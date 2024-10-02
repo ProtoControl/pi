@@ -14,7 +14,7 @@ from kivy.uix.textinput import TextInput
 import ast
 import re
 import sys
-
+import requests
 import random
 import string
 
@@ -45,6 +45,7 @@ else:
             )
         except serial.SerialException as e:
             print(f"Error opening serial port: {e}")
+            debug_mode = True
     else:
         print("This script is not running on a supported system for UART.")
 
@@ -132,6 +133,9 @@ class ConsoleWidget(BoxLayout):
 
 class MyApp(App):
     def build(self):
+        #grab layout from website:
+        r = requests.get('https://api.github.com/events')
+        print(r.json)
         # Define a 4x3 GridLayout
         main_layout = FloatLayout()
 
@@ -141,7 +145,6 @@ class MyApp(App):
         slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
         push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
         console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
-
         console.write_to_console(toggle_button.state)
         
         # Bind the toggle button state to the method that updates the console
