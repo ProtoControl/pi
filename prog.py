@@ -60,7 +60,7 @@ class PushButton(Button):
     def on_press(self):
         message = f"{self.id},1"
         print(message)
-        if not debug_mode:
+        #if not debug_mode:
             #ser.write(message.encode('utf-8'))
 
 
@@ -73,7 +73,7 @@ class ToggleButtonWidget(ToggleButton):
     def on_state(self, widget, value):
         message = f"{self.id},{value}"
         print(message)
-        if not debug_mode:
+        #if not debug_mode:
             #ser.write(message.encode('utf-8'))
 
 
