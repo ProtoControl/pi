@@ -24,7 +24,7 @@ import platform
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
 Window.size = (800, 480)
 debug_mode = '-d' in sys.argv
-#Window.fullscreen = 'auto'
+Window.fullscreen = 'auto'
 
 
 if platform.system() == 'Windows':
