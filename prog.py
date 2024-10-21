@@ -195,7 +195,7 @@ class MyApp(App):
         # Create other functional widgets
 
         create_components(input_data,main_layout)
-        
+        return main_layout
 
 
 if __name__ == '__main__':
