@@ -150,7 +150,7 @@ input_data = [
     {"x": 8, "y": 0, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 0, "y": 1, "w": 0, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 8, "y": 3, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"}
-    """
+"""
 
 
 
