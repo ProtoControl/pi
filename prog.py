@@ -128,42 +128,7 @@ class ConsoleWidget(BoxLayout):
         self.add_widget(self.content)
     def write_to_console(self, text):
         self.content.text = f"{text}\n"
-def create_components(input_data, main_layout, grid_width=12, grid_height=7):
-    created = []
-    for component_data in input_data:
 
-        x = component_data.get('x', 0)
-        y = component_data.get('y', 0)
-        w = component_data.get('w', 1)
-        h = component_data.get('h', 1)
-        compType = component_data.get('compType')
-        comp_id = component_data.get('id', 'unknown-id')
-        
-        # Convert grid positions to percentages of the screen size
-        pos_hint_x = x / grid_width
-        pos_hint_y = 1 - ((y + 1) / grid_height)        
-        print(pos_hint_x)
-        print(pos_hint_y)
-        # Convert grid size to size_hint percentages
-        size_hint_w = max(w / grid_width, 1 / grid_width)  # Minimum size 1 grid unit wide
-        size_hint_h = max(h / grid_height, 1 / grid_height)  # Minimum size 1 grid unit tall
-        
-        # Create pos_hint and size_hint
-        pos_hint = {'x': pos_hint_x, 'y': pos_hint_y}
-        size_hint = (size_hint_w, size_hint_h)
-        
-        # Format the constructor call
-        constructor_call = f'{compType}(text="{comp_id}", id="{comp_id}", size_hint={size_hint}, pos_hint={pos_hint})'
-        
-        # Dynamically create the widget using eval
-        try:
-            widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
-            #created.append(widget)
-            main_layout.add_widget(widget)
-            print(f"Created: {widget}")
-        except NameError:
-            print(f"Component type {compType} not recognized")
-        
 
 # Example input
 input_data = [
@@ -187,6 +152,44 @@ input_data = [
 
 
 class MyApp(App):
+
+    @classmethod
+    def create_components(input_data, main_layout, grid_width=12, grid_height=7):
+        created = []
+        for component_data in input_data:
+
+            x = component_data.get('x', 0)
+            y = component_data.get('y', 0)
+            w = component_data.get('w', 1)
+            h = component_data.get('h', 1)
+            compType = component_data.get('compType')
+            comp_id = component_data.get('id', 'unknown-id')
+            
+            # Convert grid positions to percentages of the screen size
+            pos_hint_x = x / grid_width
+            pos_hint_y = 1 - ((y + 1) / grid_height)        
+            print(pos_hint_x)
+            print(pos_hint_y)
+            # Convert grid size to size_hint percentages
+            size_hint_w = max(w / grid_width, 1 / grid_width)  # Minimum size 1 grid unit wide
+            size_hint_h = max(h / grid_height, 1 / grid_height)  # Minimum size 1 grid unit tall
+            
+            # Create pos_hint and size_hint
+            pos_hint = {'x': pos_hint_x, 'y': pos_hint_y}
+            size_hint = (size_hint_w, size_hint_h)
+            
+            # Format the constructor call
+            constructor_call = f'{compType}(text="{comp_id}", id="{comp_id}", size_hint={size_hint}, pos_hint={pos_hint})'
+            
+            # Dynamically create the widget using eval
+            try:
+                widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
+                #created.append(widget)
+                main_layout.add_widget(widget)
+                print(f"Created: {widget}")
+            except NameError:
+                print(f"Component type {compType} not recognized")
+        
     def build(self):
         # Define a 4x3 GridLayout
         main_layout = FloatLayout()
@@ -209,7 +212,7 @@ class MyApp(App):
         #main_layout.add_widget(slider_widget)
 
         
-        create_components(input_data,main_layout)
+        self.create_components(input_data,main_layout)
 
         return main_layout
 
