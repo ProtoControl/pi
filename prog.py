@@ -157,7 +157,7 @@ def create_components(input_data, main_layout, grid_width=12, grid_height=7):
         
         # Dynamically create the widget using eval
         try:
-            widget = eval(constructor_call)
+            widget = PushButton(text=comp_id, id=comp_id, size_hint={size_hint}, pos_hint={pos_hint})
             main_layout.add_widget(widget)
             print(f"Created: {widget}")
         except NameError:
