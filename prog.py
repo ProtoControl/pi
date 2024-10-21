@@ -212,21 +212,23 @@ class MyApp(App):
         # toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
         #slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
         #push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
-        console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
+        #console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
 
         #console.write_to_console(toggle_button.state)
         
         # Bind the toggle button state to the method that updates the console
         #toggle_button.bind(state=lambda instance, value: console.write_to_console(f"Toggle State: {value}"))
 
-        self.main_layout.add_widget(console)
+        #self.main_layout.add_widget(console)
         #main_layout.add_widget(push_button)
         #main_layout.add_widget(toggle_button)
         #main_layout.add_widget(slider_widget)
 
         
         MyApp.create_components(input_data, self.main_layout)
-        self.main_layout.canvas.ask_update()
+        
+        self.Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(), 2)
+        self.Clock.schedule_once(lambda dt: print("3 seconds elapsed"), 3)
         return self.main_layout
 
 
