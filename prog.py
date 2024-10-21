@@ -231,5 +231,5 @@ class MyApp(App):
 
 
 if __name__ == '__main__':
-    MyApp().async_run()
+    MyApp().run()
 
