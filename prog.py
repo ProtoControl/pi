@@ -192,6 +192,7 @@ input_data = [
 
 class MyApp(App):
     def build(self):
+        Window.canvas.ask_update()
         #grab layout from website:
         #r = requests.get('https://api.github.com/events')
         #print(r.json)
@@ -199,7 +200,7 @@ class MyApp(App):
         main_layout = FloatLayout()
 
         create_components(input_data, main_layout)
-        Window.canvas.ask_update()
+        
 
         # Create other functional widgets
         # toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
