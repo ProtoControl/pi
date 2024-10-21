@@ -137,7 +137,8 @@ input_data = [
     {"x": 1, "y": 0, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 4, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 4, "y": 2, "w": 2, "h": 0, "id": "unknown-id", "compType": "PushButton"}
-    """
+]
+"""
     {"x": 0, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 0, "y": 5, "w": 6, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 0, "y": 3, "w": 2, "h": 0, "id": "unknown-id", "compType": "PushButton"},
@@ -150,7 +151,6 @@ input_data = [
     {"x": 0, "y": 1, "w": 0, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 8, "y": 3, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"}
     """
-]
 
 
 
