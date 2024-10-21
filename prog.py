@@ -199,6 +199,9 @@ class MyApp(App):
         create_components(input_data, main_layout)
         Clock.schedule_once(self.force_refresh, 0)
         return main_layout
+    def force_refresh(self, dt):
+        # Force a redraw of the window/canvas
+        Window.canvas.ask_update()
 
 
 if __name__ == '__main__':
