@@ -197,12 +197,10 @@ class MyApp(App):
     def build(self):
         main_layout = FloatLayout()
         create_components(input_data, main_layout)
-        Clock.schedule_once(self.force_refresh, 0)
+        push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
+        main_layout.add_widget(push_button)
         return main_layout
-    def force_refresh(self, dt):
-        # Force a redraw of the window/canvas
-        Window.dispatch('on_touch_down', Window.mouse_pos)
-
+    
 
 if __name__ == '__main__':
     MyApp().run()
