@@ -192,7 +192,7 @@ class MyApp(App):
         
     def build(self):
         # Define a 4x3 GridLayout
-        main_layout = FloatLayout()
+        self.main_layout = FloatLayout()
         Window.clearcolor = (0.68, 0.85, 0.9, 1)
         
         # Create other functional widgets
@@ -212,9 +212,9 @@ class MyApp(App):
         #main_layout.add_widget(slider_widget)
 
         
-        MyApp.create_components(input_data,main_layout)
-        main_layout.canvas.ask_update()
-        return main_layout
+        MyApp.create_components(input_data, self.main_layout)
+        self.main_layout.canvas.ask_update()
+        return self.main_layout
 
 
 if __name__ == '__main__':
