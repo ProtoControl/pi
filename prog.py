@@ -20,6 +20,8 @@ import string
 
 import platform
 
+from kivy.config import Config
+Config.set('graphics', 'window_provider', 'egl_rpi')
 
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
 Window.size = (800, 480)
