@@ -206,6 +206,7 @@ class MyApp(App):
         main_layout.add_widget(push_button)
         main_layout.add_widget(toggle_button)
         main_layout.add_widget(slider_widget)
+        create_components(input_data,main_layout)
         return main_layout
 
 
