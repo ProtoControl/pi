@@ -20,8 +20,6 @@ import string
 
 import platform
 
-from kivy.config import Config
-Config.set('graphics', 'window_provider', 'egl_rpi')
 
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
 Window.size = (800, 480)
@@ -201,7 +199,7 @@ class MyApp(App):
         main_layout = FloatLayout()
 
         create_components(input_data, main_layout)
-
+        Window.canvas.ask_update()
 
         # Create other functional widgets
         # toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
