@@ -196,7 +196,7 @@ class MyApp(App):
 
         array = create_components(input_data,main_layout)
         for widget in array:
-            main_layout.add_widget(array[widget])
+            main_layout.add_widget(widget)
         return main_layout
 
 
