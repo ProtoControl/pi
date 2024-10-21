@@ -10,6 +10,7 @@ from kivy.graphics import Rectangle, Color
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
+from kivy.clock import Clock
 #import serial
 import ast
 import re
