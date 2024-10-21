@@ -203,6 +203,7 @@ class MyApp(App):
         # Force a redraw of the window/canvas
         Window.canvas.clear()
         Window.canvas.ask_update()
+        Window.show()
 
 
 if __name__ == '__main__':
