@@ -195,8 +195,8 @@ class MyApp(App):
         # Create other functional widgets
 
         array = create_components(input_data,main_layout)
-        for item in array:
-            main_layout.add_widget(array[item])
+        for widget in array:
+            main_layout.add_widget(array[widget])
         return main_layout
 
 
