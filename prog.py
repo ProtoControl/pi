@@ -194,8 +194,8 @@ class MyApp(App):
         
         # Create other functional widgets
         # toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
-        # slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
-        push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
+        slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
+        #push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
         #console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
 
         #console.write_to_console(toggle_button.state)
@@ -204,9 +204,9 @@ class MyApp(App):
         #toggle_button.bind(state=lambda instance, value: console.write_to_console(f"Toggle State: {value}"))
 
         #main_layout.add_widget(console)
-        main_layout.add_widget(push_button)
+        #main_layout.add_widget(push_button)
         #main_layout.add_widget(toggle_button)
-        #main_layout.add_widget(slider_widget)
+        main_layout.add_widget(slider_widget)
 
         
         create_components(input_data,main_layout)
