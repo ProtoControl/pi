@@ -201,9 +201,7 @@ class MyApp(App):
         return main_layout
     def force_refresh(self, dt):
         # Force a redraw of the window/canvas
-        Window.canvas.clear()
-        Window.canvas.ask_update()
-        Window.show()
+        Window.dispatch('on_touch_down', Window.mouse_pos)
 
 
 if __name__ == '__main__':
