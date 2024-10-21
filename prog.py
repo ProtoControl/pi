@@ -228,7 +228,7 @@ class MyApp(App):
         
         MyApp.create_components(input_data, self.main_layout)
         
-        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),3)
+        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),1)
         #Clock.schedule_once(lambda dt: print("3 seconds elapsed"), 3)
         return self.main_layout
 
