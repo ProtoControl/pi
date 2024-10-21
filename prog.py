@@ -10,6 +10,7 @@ from kivy.graphics import Rectangle, Color
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
+from kivy.clock import Clock
 #import serial
 import ast
 import re
@@ -196,6 +197,7 @@ class MyApp(App):
     def build(self):
         main_layout = FloatLayout()
         create_components(input_data, main_layout)
+        Clock.schedule_once(self.force_refresh, 0)
         return main_layout
 
 
