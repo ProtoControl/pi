@@ -198,7 +198,7 @@ class MyApp(App):
         main_layout = FloatLayout()
         push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
         main_layout.add_widget(push_button)
-        create_components(input_data, main_layout)
+        #create_components(input_data, main_layout)
         
         return main_layout
     
