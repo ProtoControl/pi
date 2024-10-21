@@ -205,7 +205,6 @@ class MyApp(App):
                 print(f"Created: {widget}")
             except NameError:
                 print(f"Component type {compType} not recognized")
-        Clock.schedule_once(lambda x: main_layout.canvas.ask_update(),1)
         
     def build(self):
         # Define a 4x3 GridLayout
@@ -231,6 +230,7 @@ class MyApp(App):
         
         MyApp.create_components(input_data, self.main_layout)
         
+        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),1)
         #Clock.schedule_once(lambda dt: print("3 seconds elapsed"), 3)
         return self.main_layout
 
