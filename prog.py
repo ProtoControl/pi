@@ -14,7 +14,7 @@ from kivy.uix.textinput import TextInput
 import ast
 import re
 import sys
-import requests
+
 import random
 import string
 
@@ -24,7 +24,7 @@ import platform
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
 Window.size = (800, 480)
 debug_mode = '-d' in sys.argv
-Window.fullscreen = 'auto'
+#Window.fullscreen = 'auto'
 
 
 if platform.system() == 'Windows':
@@ -45,13 +45,12 @@ else:
             )
         except serial.SerialException as e:
             print(f"Error opening serial port: {e}")
-            debug_mode = True
     else:
         print("This script is not running on a supported system for UART.")
 
 
 class PushButton(Button):
-    def __init__(self, text, id, color = (1,1,1,1), **kwargs):
+    def __init__(self, text, color, id, **kwargs):
         super(PushButton, self).__init__(**kwargs)
         self.text = text
         self.background_color = color
@@ -60,8 +59,8 @@ class PushButton(Button):
     def on_press(self):
         message = f"{self.id},1"
         print(message)
-        #if not debug_mode:
-            #ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
 
 
 class ToggleButtonWidget(ToggleButton):
@@ -73,8 +72,8 @@ class ToggleButtonWidget(ToggleButton):
     def on_state(self, widget, value):
         message = f"{self.id},{value}"
         print(message)
-        #if not debug_mode:
-            #ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
 
 
 
@@ -101,8 +100,8 @@ class SliderWidget(BoxLayout):
         rounded_value = round(value, 2)
         message = f"{self.slider.id},{rounded_value}"
         print(message)
-        #if not debug_mode:
-            #ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
         self.value_label.text = f"Value: {rounded_value}"
  
 
@@ -130,92 +129,28 @@ class ConsoleWidget(BoxLayout):
     def write_to_console(self, text):
         self.content.text = f"{text}\n"
 
-#Hard coded json website example:
-#input = [{"x":11,"y":6,"w":0,"h":0,"id":"unknown-id","compType":"button"},{"x":0,"y":0,"w":0,"h":0,"id":"unknown-id","compType":"button"},{"x":0,"y":6,"w":4,"h":0,"id":"unknown-id","compType":"button"},{"x":4,"y":3,"w":4,"h":0,"id":"unknown-id","compType":"button"},{"x":11,"y":0,"w":0,"h":0,"id":"unknown-id","compType":"button"}]
-
-
-#decode function
-def create_components(input_data, main_layout, grid_width=12, grid_height=7):
-
-    for component_data in input_data:
-
-        x = component_data.get('x', 0)
-        y = component_data.get('y', 0)
-        w = component_data.get('w', 1)
-        h = component_data.get('h', 1)
-        compType = component_data.get('compType')
-        comp_id = component_data.get('id', 'unknown-id')
-        
-        # Convert grid positions to percentages of the screen size
-        pos_hint_x = x / grid_width
-        pos_hint_y = 1 - ((y + 1) / grid_height)        
-        print(pos_hint_x)
-        print(pos_hint_y)
-        # Convert grid size to size_hint percentages
-        size_hint_w = max(w / grid_width, 1 / grid_width)  # Minimum size 1 grid unit wide
-        size_hint_h = max(h / grid_height, 1 / grid_height)  # Minimum size 1 grid unit tall
-        
-        # Create pos_hint and size_hint
-        pos_hint = {'x': pos_hint_x, 'y': pos_hint_y}
-        size_hint = (size_hint_w, size_hint_h)
-        
-        # Format the constructor call
-        constructor_call = f'{compType}(text="{comp_id}", id="{comp_id}", size_hint={size_hint}, pos_hint={pos_hint})'
-        
-        # Dynamically create the widget using eval
-        try:
-            widget = eval(constructor_call)
-            main_layout.add_widget(widget)
-            print(f"Created: {widget}")
-        except NameError:
-            print(f"Component type {compType} not recognized")
-
-
-# Example input
-input_data = [
-    {"x": 0, "y": 0, "w": 0, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 1, "y": 0, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 4, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 4, "y": 2, "w": 2, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 5, "w": 6, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 3, "w": 2, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 6, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 8, "y": 2, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 5, "y": 1, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 2, "w": 3, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 8, "y": 6, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 8, "y": 0, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"}
-]
-
-
 
 class MyApp(App):
     def build(self):
-        Window.canvas.ask_update()
-        #grab layout from website:
-        #r = requests.get('https://api.github.com/events')
-        #print(r.json)
         # Define a 4x3 GridLayout
         main_layout = FloatLayout()
 
-        create_components(input_data, main_layout)
         
-
         # Create other functional widgets
-        # toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
-        # slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
-        # push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
-        # console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
-        # console.write_to_console(toggle_button.state)
+        toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
+        slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
+        push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
+        console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
+
+        console.write_to_console(toggle_button.state)
         
         # Bind the toggle button state to the method that updates the console
-        #toggle_button.bind(state=lambda instance, value: console.write_to_console(f"Toggle State: {value}"))
+        toggle_button.bind(state=lambda instance, value: console.write_to_console(f"Toggle State: {value}"))
 
-        # main_layout.add_widget(console)
-        # main_layout.add_widget(push_button)
-        # main_layout.add_widget(toggle_button)
-        # main_layout.add_widget(slider_widget)
+        main_layout.add_widget(console)
+        main_layout.add_widget(push_button)
+        main_layout.add_widget(toggle_button)
+        main_layout.add_widget(slider_widget)
         return main_layout
 
 
