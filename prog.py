@@ -154,7 +154,7 @@ input_data = [
 class MyApp(App):
 
     @classmethod
-    def create_components(input_data, main_layout, grid_width=12, grid_height=7):
+    def create_components(cls, input_data, main_layout, grid_width=12, grid_height=7):
         created = []
         for component_data in input_data:
 
@@ -212,7 +212,7 @@ class MyApp(App):
         #main_layout.add_widget(slider_widget)
 
         
-        self.create_components(input_data,main_layout)
+        MyApp.create_components(input_data,main_layout)
 
         return main_layout
 
