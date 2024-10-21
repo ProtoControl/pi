@@ -153,6 +153,15 @@ input_data = [
 
 class MyApp(App):
 
+    def on_resume():
+        print("RESUMED")
+        
+    def on_start():
+        print("start")
+    
+    def on_stop():
+        print("stop")
+    
     @classmethod
     def create_components(cls, input_data, main_layout, grid_width=12, grid_height=7):
         created = []
