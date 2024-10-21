@@ -59,8 +59,8 @@ class PushButton(Button):
     def on_press(self):
         message = f"{self.id},1"
         print(message)
-        if not debug_mode:
-            ser.write(message.encode('utf-8'))
+        # if not debug_mode:
+        #     ser.write(message.encode('utf-8'))
 
 
 class ToggleButtonWidget(ToggleButton):
@@ -72,8 +72,8 @@ class ToggleButtonWidget(ToggleButton):
     def on_state(self, widget, value):
         message = f"{self.id},{value}"
         print(message)
-        if not debug_mode:
-            ser.write(message.encode('utf-8'))
+        # if not debug_mode:
+        #     ser.write(message.encode('utf-8'))
 
 
 
@@ -100,8 +100,8 @@ class SliderWidget(BoxLayout):
         rounded_value = round(value, 2)
         message = f"{self.slider.id},{rounded_value}"
         print(message)
-        if not debug_mode:
-            ser.write(message.encode('utf-8'))
+        # if not debug_mode:
+        #     ser.write(message.encode('utf-8'))
         self.value_label.text = f"Value: {rounded_value}"
  
 
