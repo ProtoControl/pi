@@ -158,8 +158,8 @@ def create_components(input_data, main_layout, grid_width=12, grid_height=7):
         # Dynamically create the widget using eval
         try:
             widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
-            created.append(widget)
-            #main_layout.add_widget(widget)
+            
+            main_layout.add_widget(widget)
             print(f"Created: {widget}")
         except NameError:
             print(f"Component type {compType} not recognized")
@@ -194,10 +194,8 @@ class MyApp(App):
         
         # Create other functional widgets
 
-        array = create_components(input_data,main_layout)
-        for widget in array:
-            main_layout.add_widget(widget)
-        return main_layout
+        create_components(input_data,main_layout)
+        
 
 
 if __name__ == '__main__':
