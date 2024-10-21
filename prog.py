@@ -129,7 +129,7 @@ class ConsoleWidget(BoxLayout):
     def write_to_console(self, text):
         self.content.text = f"{text}\n"
 def create_components(input_data, main_layout, grid_width=12, grid_height=7):
-
+    created = []
     for component_data in input_data:
 
         x = component_data.get('x', 0)
@@ -158,11 +158,12 @@ def create_components(input_data, main_layout, grid_width=12, grid_height=7):
         # Dynamically create the widget using eval
         try:
             widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
-            main_layout.add_widget(widget)
+            created.append(widget)
+            #main_layout.add_widget(widget)
             print(f"Created: {widget}")
         except NameError:
             print(f"Component type {compType} not recognized")
-
+        return created
 
 # Example input
 input_data = [
@@ -193,7 +194,9 @@ class MyApp(App):
         
         # Create other functional widgets
 
-        create_components(input_data,main_layout)
+        array = create_components(input_data,main_layout)
+        for item in array:
+            main_layout.add_widget(array[item])
         return main_layout
 
 
