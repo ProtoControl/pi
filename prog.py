@@ -82,7 +82,7 @@ class SliderWidget(BoxLayout):
         super(SliderWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
 
-        self.slider = Slider(min=min, max = max, value=min)
+        self.slider = Slider(min=min, max= max, value=min)
         self.slider.orientation = 'horizontal'
         self.slider.value_track = True
         self.slider.value_track_color = [1, 0, 0, 1]
@@ -90,7 +90,7 @@ class SliderWidget(BoxLayout):
         self.slider.min = min
         self.slider.max = max
         self.slider.id = id
-        self.value_label = Label(text=f"{text}: {min}", size_hint=(1, 0.2), font_size = '40sp')
+        self.value_label = Label(text=f"{text}", size_hint=(1, 0.2), font_size = '40sp')
         self.slider.bind(value=self.on_value_change)
 
         self.add_widget(self.value_label)
@@ -213,7 +213,7 @@ class MyApp(App):
 
         
         MyApp.create_components(input_data,main_layout)
-
+        self.main_layout.canvas.ask_update()
         return main_layout
 
 
