@@ -213,7 +213,7 @@ class MyApp(App):
 
         
         MyApp.create_components(input_data,main_layout)
-        self.main_layout.canvas.ask_update()
+        main_layout.canvas.ask_update()
         return main_layout
 
 
