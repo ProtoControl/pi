@@ -10,12 +10,11 @@ from kivy.graphics import Rectangle, Color
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
-from kivy.clock import Clock
 #import serial
 import ast
 import re
 import sys
-import requests
+
 import random
 import string
 
@@ -46,13 +45,12 @@ else:
             )
         except serial.SerialException as e:
             print(f"Error opening serial port: {e}")
-            debug_mode = True
     else:
         print("This script is not running on a supported system for UART.")
 
 
 class PushButton(Button):
-    def __init__(self, text, id, color = (1,1,1,1), **kwargs):
+    def __init__(self, text, color, id, **kwargs):
         super(PushButton, self).__init__(**kwargs)
         self.text = text
         self.background_color = color
@@ -61,8 +59,8 @@ class PushButton(Button):
     def on_press(self):
         message = f"{self.id},1"
         print(message)
-        #if not debug_mode:
-            #ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
 
 
 class ToggleButtonWidget(ToggleButton):
@@ -74,8 +72,8 @@ class ToggleButtonWidget(ToggleButton):
     def on_state(self, widget, value):
         message = f"{self.id},{value}"
         print(message)
-        #if not debug_mode:
-            #ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
 
 
 
@@ -102,8 +100,8 @@ class SliderWidget(BoxLayout):
         rounded_value = round(value, 2)
         message = f"{self.slider.id},{rounded_value}"
         print(message)
-        #if not debug_mode:
-            #ser.write(message.encode('utf-8'))
+        if not debug_mode:
+            ser.write(message.encode('utf-8'))
         self.value_label.text = f"Value: {rounded_value}"
  
 
@@ -130,12 +128,6 @@ class ConsoleWidget(BoxLayout):
         self.add_widget(self.content)
     def write_to_console(self, text):
         self.content.text = f"{text}\n"
-
-#Hard coded json website example:
-#input = [{"x":11,"y":6,"w":0,"h":0,"id":"unknown-id","compType":"button"},{"x":0,"y":0,"w":0,"h":0,"id":"unknown-id","compType":"button"},{"x":0,"y":6,"w":4,"h":0,"id":"unknown-id","compType":"button"},{"x":4,"y":3,"w":4,"h":0,"id":"unknown-id","compType":"button"},{"x":11,"y":0,"w":0,"h":0,"id":"unknown-id","compType":"button"}]
-
-
-#decode function
 def create_components(input_data, main_layout, grid_width=12, grid_height=7):
 
     for component_data in input_data:
@@ -195,13 +187,28 @@ input_data = [
 
 class MyApp(App):
     def build(self):
+        # Define a 4x3 GridLayout
         main_layout = FloatLayout()
-        push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
-        main_layout.add_widget(push_button)
-        #create_components(input_data, main_layout)
+
         
+        # Create other functional widgets
+        toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
+        slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
+        push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
+        console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
+
+        console.write_to_console(toggle_button.state)
+        
+        # Bind the toggle button state to the method that updates the console
+        toggle_button.bind(state=lambda instance, value: console.write_to_console(f"Toggle State: {value}"))
+
+        main_layout.add_widget(console)
+        main_layout.add_widget(push_button)
+        main_layout.add_widget(toggle_button)
+        main_layout.add_widget(slider_widget)
         return main_layout
-    
+
 
 if __name__ == '__main__':
     MyApp().run()
+
