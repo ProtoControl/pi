@@ -190,12 +190,12 @@ class MyApp(App):
     def build(self):
         # Define a 4x3 GridLayout
         main_layout = FloatLayout()
-
+        Window.clearcolor = (0, 1, 0, 1)
         
         # Create other functional widgets
 
         create_components(input_data,main_layout)
-       
+
         return main_layout
 
 
