@@ -201,6 +201,7 @@ class MyApp(App):
         return main_layout
     def force_refresh(self, dt):
         # Force a redraw of the window/canvas
+        Window.canvas.clear()
         Window.canvas.ask_update()
 
 
