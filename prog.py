@@ -171,7 +171,6 @@ class MyApp(App):
         return True
     @classmethod
     def create_components(cls, input_data, main_layout, grid_width=12, grid_height=7):
-        created = []
         for component_data in input_data:
 
             x = component_data.get('x', 0)
@@ -194,13 +193,17 @@ class MyApp(App):
             pos_hint = {'x': pos_hint_x, 'y': pos_hint_y}
             size_hint = (size_hint_w, size_hint_h)
             
-            # Format the constructor call
-            constructor_call = f'{compType}(text="{comp_id}", id="{comp_id}", size_hint={size_hint}, pos_hint={pos_hint})'
-            
             # Dynamically create the widget using eval
             try:
-                widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
-                #created.append(widget)
+                #widget = eval(constructor_call)
+                #widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
+                match compType:
+                    case "PushButton":
+                        widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
+                    case "ToggleButton":
+                        print("tog")
+                        #widget = ToggleButtonWidget()
+
                 main_layout.add_widget(widget)
                 print(f"Created: {widget}")
             except NameError:
@@ -211,27 +214,10 @@ class MyApp(App):
         self.main_layout = FloatLayout()
         Window.clearcolor = (0.68, 0.85, 0.9, 1)
         
-        # Create other functional widgets
-        # toggle_button = ToggleButtonWidget(text="toggle", id = 'B', size_hint=(.25, .3), pos_hint={'x':.5, 'y':.2})
-        #slider_widget = SliderWidget(text = "value", min=1, max=50, id = 'C', size_hint=(1, .3), pos_hint={'x':.2, 'y':.6})
-        #push_button = PushButton(text = "press", color = (1,1,1,1), id = 'A',size_hint = (.25,.3), pos_hint = {'x':.1,'y':.1})
-        #console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
-
-        #console.write_to_console(toggle_button.state)
-        
-        # Bind the toggle button state to the method that updates the console
-        #toggle_button.bind(state=lambda instance, value: console.write_to_console(f"Toggle State: {value}"))
-
-        #self.main_layout.add_widget(console)
-        #main_layout.add_widget(push_button)
-        #main_layout.add_widget(toggle_button)
-        #main_layout.add_widget(slider_widget)
-
-        
         MyApp.create_components(input_data, self.main_layout)
         
         Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),3)
-        #Clock.schedule_once(lambda dt: print("3 seconds elapsed"), 3)
+        
         return self.main_layout
 
 
