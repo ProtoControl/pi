@@ -133,10 +133,10 @@ class ConsoleWidget(BoxLayout):
 
 # Example input
 input_data = [
-    {"x": 0, "y": 0, "w": 0, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 1, "y": 0, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 4, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 4, "y": 2, "w": 2, "h": 0, "id": "unknown-id", "compType": "PushButton"},
+    {"x": 0, "y": 0, "w": 0, "h": 0, "id": "top", "compType": "PushButton"},
+    {"x": 1, "y": 0, "w": 4, "h": 0, "id": "press", "compType": "PushButton"},
+    {"x": 4, "y": 4, "w": 4, "h": 0, "id": "activate", "compType": "PushButton"},
+    {"x": 4, "y": 2, "w": 2, "h": 0, "id": "ON", "compType": "PushButton"},
     {"x": 6, "y": 1, "w": 4, "h": 0, "id": "val", "compType": "SliderWidget","min":0,"max":100}
 ]
 """
@@ -220,10 +220,11 @@ class MyApp(App):
         # Define a 4x3 GridLayout
         self.main_layout = FloatLayout()
         Window.clearcolor = (0.68, 0.85, 0.9, 1)
-        
+        console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.6})
+        self.main_layout.add_widget(console)
         MyApp.create_components(input_data, self.main_layout)
         
-        #Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
+        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
         
         return self.main_layout
 
