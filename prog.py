@@ -97,7 +97,7 @@ class SliderWidget(BoxLayout):
         self.add_widget(self.value_label)
         self.add_widget(self.slider)
 
-    def on_value_change(self, value):
+    def on_value_change(self, instance,value):
         rounded_value = round(value, 2)
         message = f"{self.slider.id},{rounded_value}"
         print(message)
