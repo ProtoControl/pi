@@ -97,13 +97,13 @@ class SliderWidget(BoxLayout):
         self.add_widget(self.value_label)
         self.add_widget(self.slider)
 
-    def on_value_change(self, instance, value):
+    def on_value_change(self, value):
         rounded_value = round(value, 2)
         message = f"{self.slider.id},{rounded_value}"
         print(message)
         # if not debug_mode:
         #     ser.write(message.encode('utf-8'))
-        self.value_label.text = f"Value: {rounded_value}"
+        self.value_label.text = f"{self.slider.text}: {rounded_value}"
  
 
 class ConsoleWidget(BoxLayout):
@@ -136,7 +136,8 @@ input_data = [
     {"x": 0, "y": 0, "w": 0, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 1, "y": 0, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
     {"x": 4, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 4, "y": 2, "w": 2, "h": 0, "id": "unknown-id", "compType": "PushButton"}
+    {"x": 4, "y": 2, "w": 2, "h": 0, "id": "unknown-id", "compType": "PushButton"},
+    {"x": 6, "y": 1, "w": 4, "h": 0, "id": "val", "compType": "SliderWidget","min":0,"max":100}
 ]
 """
     {"x": 0, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
@@ -203,6 +204,12 @@ class MyApp(App):
                     case "ToggleButton":
                         print("tog")
                         #widget = ToggleButtonWidget()
+                    case "SliderWidget":
+                        #parse slider specific vals
+                        min_v = component_data.get("min")
+                        max_v = component_data.get("max")
+                        
+                        widget = SliderWidget(text=comp_id, min = min_v, max = max_v, id = comp_id, size_hint = size_hint, pos_hint = pos_hint)
 
                 main_layout.add_widget(widget)
                 print(f"Created: {widget}")
@@ -216,7 +223,7 @@ class MyApp(App):
         
         MyApp.create_components(input_data, self.main_layout)
         
-        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),3)
+        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
         
         return self.main_layout
 
