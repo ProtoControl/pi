@@ -223,7 +223,7 @@ class MyApp(App):
         
         MyApp.create_components(input_data, self.main_layout)
         
-        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
+        #Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
         
         return self.main_layout
 
