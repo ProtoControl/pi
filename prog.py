@@ -219,8 +219,8 @@ class MyApp(App):
     def build(self):
         # Define a 4x3 GridLayout
         self.main_layout = FloatLayout()
-        Window.clearcolor = (0.68, 0.85, 0.9, 1)
-        console = ConsoleWidget(text="Toggle State", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.4})
+        #Window.clearcolor = (0.68, 0.85, 0.9, 1)
+        console = ConsoleWidget(text="System Output", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.4})
         self.main_layout.add_widget(console)
         MyApp.create_components(input_data, self.main_layout)
         
