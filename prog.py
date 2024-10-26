@@ -240,7 +240,7 @@ class MyApp(App):
             # Parse the JSON response
             data = response.json()
             print(data)
-            
+             
             print("Data successfully retrieved and stored in 'output_data.json'.")
         
         except requests.exceptions.RequestException as e:
@@ -250,7 +250,7 @@ class MyApp(App):
         #self.main_layout.add_widget(console)
         
         
-        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
+        #Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
         
         return self.main_layout
 
