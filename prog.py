@@ -23,6 +23,11 @@ import string
 import platform
 
 
+# Define the URL
+url = "https://protocontrol.dev/template.php"
+
+
+
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
 Window.size = (800, 480)
 debug_mode = '-d' in sys.argv
@@ -225,9 +230,25 @@ class MyApp(App):
         # Define a 4x3 GridLayout
         self.main_layout = FloatLayout()
         Window.clearcolor = (0.7, 0.7, 0.7, 1)
+        try:
+        # Make a GET request to the URL
+            response = requests.get(url)
+            
+            # Raise an exception if the request was unsuccessful
+            response.raise_for_status()
+            
+            # Parse the JSON response
+            data = response.json()
+            print(data)
+            
+            print("Data successfully retrieved and stored in 'output_data.json'.")
+        
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred: {e}")
+            MyApp.create_components(input_data, self.main_layout)
         #console = ConsoleWidget(text="System Output", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.4})
         #self.main_layout.add_widget(console)
-        MyApp.create_components(input_data, self.main_layout)
+        
         
         Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
         
