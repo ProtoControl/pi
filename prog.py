@@ -130,14 +130,17 @@ class ConsoleWidget(BoxLayout):
     def write_to_console(self, text):
         self.content.text = f"{text}\n"
 
+        #console = ConsoleWidget(text="System Output", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.4})
 
 # Example input
 input_data = [
-    {"x": 0, "y": 0, "w": 0, "h": 0, "id": "top", "compType": "PushButton"},
-    {"x": 1, "y": 0, "w": 4, "h": 0, "id": "press", "compType": "PushButton"},
-    {"x": 4, "y": 4, "w": 4, "h": 0, "id": "activate", "compType": "PushButton"},
-    {"x": 4, "y": 2, "w": 2, "h": 0, "id": "ON", "compType": "PushButton"},
-    {"x": 6, "y": 1, "w": 4, "h": 0, "id": "val", "compType": "SliderWidget","min":0,"max":100}
+    {"x": 1, "y": 1, "w": 2, "h": 0, "id": "Turn on", "compType": "PushButton"},
+    {"x": 1, "y": 2, "w": 4, "h": 0, "id": "press", "compType": "PushButton"},
+    {"x": 1, "y": 3, "w": 3, "h": 0, "id": "activate", "compType": "PushButton"},
+    {"x": 1, "y": 4, "w": 5, "h": 0, "id": "ON", "compType": "PushButton"},
+    {"x": 0, "y": 6, "w": 12, "h": 0, "id": "Slider Value", "compType": "SliderWidget","min":0,"max":100},
+    {"x": 8, "y": 2, "w": 3, "h": 2, "id": "Sustem Output", "compType": "ConsoleWidget"}
+
 ]
 """
     {"x": 0, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
@@ -210,6 +213,8 @@ class MyApp(App):
                         max_v = component_data.get("max")
                         
                         widget = SliderWidget(text=comp_id, min = min_v, max = max_v, id = comp_id, size_hint = size_hint, pos_hint = pos_hint)
+                    case "ConsoleWidget":
+                        widget = ConsoleWidget(text = comp_id,id = comp_id, size_hint = size_hint, pos_hint = pos_hint)
 
                 main_layout.add_widget(widget)
                 print(f"Created: {widget}")
@@ -220,8 +225,8 @@ class MyApp(App):
         # Define a 4x3 GridLayout
         self.main_layout = FloatLayout()
         Window.clearcolor = (0.7, 0.7, 0.7, 1)
-        console = ConsoleWidget(text="System Output", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.4})
-        self.main_layout.add_widget(console)
+        #console = ConsoleWidget(text="System Output", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.4})
+        #self.main_layout.add_widget(console)
         MyApp.create_components(input_data, self.main_layout)
         
         Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
