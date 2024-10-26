@@ -15,7 +15,8 @@ from kivy.clock import Clock
 import ast
 import re
 import sys
-
+import requests
+import json
 import random
 import string
 
@@ -140,7 +141,6 @@ input_data = [
     {"x": 1, "y": 4, "w": 5, "h": 0, "id": "ON", "compType": "PushButton"},
     {"x": 0, "y": 6, "w": 12, "h": 0, "id": "Slider Value", "compType": "SliderWidget","min":0,"max":100},
     {"x": 8, "y": 2, "w": 3, "h": 2, "id": "Sustem Output", "compType": "ConsoleWidget"}
-
 ]
 """
     {"x": 0, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
