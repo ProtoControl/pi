@@ -240,7 +240,7 @@ class MyApp(App):
             # Parse the JSON response
             data = response.json()
             print(data)
-            
+            MyApp.create_components(data,self.main_layout)
             print("Data successfully retrieved and stored in 'output_data.json'.")
         
         except requests.exceptions.RequestException as e:
