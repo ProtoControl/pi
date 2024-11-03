@@ -25,7 +25,7 @@ import platform
 
 # Define the URL
 url = "https://protocontrol.dev/template.php"
-
+url = "https://protocontrol.dev/api/get-layout?layoutID=36"
 
 
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
@@ -138,29 +138,6 @@ class ConsoleWidget(BoxLayout):
 
         #console = ConsoleWidget(text="System Output", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.4})
 
-# Example input
-input_data = [
-    {"x": 1, "y": 1, "w": 2, "h": 0, "id": "Turn on", "compType": "PushButton"},
-    {"x": 1, "y": 2, "w": 4, "h": 0, "id": "press", "compType": "PushButton"},
-    {"x": 1, "y": 3, "w": 3, "h": 0, "id": "activate", "compType": "PushButton"},
-    {"x": 1, "y": 4, "w": 5, "h": 0, "id": "ON", "compType": "PushButton"},
-    {"x": 0, "y": 6, "w": 12, "h": 0, "id": "Slider Value", "compType": "SliderWidget","min":0,"max":100},
-    {"x": 8, "y": 2, "w": 3, "h": 2, "id": "Sustem Output", "compType": "ConsoleWidget"}
-]
-"""
-    {"x": 0, "y": 4, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 5, "w": 6, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 3, "w": 2, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 6, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 8, "y": 2, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 5, "y": 1, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 2, "w": 3, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 8, "y": 6, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 8, "y": 0, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 0, "y": 1, "w": 0, "h": 0, "id": "unknown-id", "compType": "PushButton"},
-    {"x": 8, "y": 3, "w": 4, "h": 0, "id": "unknown-id", "compType": "PushButton"}
-"""
-
 
 
 class MyApp(App):
@@ -186,8 +163,9 @@ class MyApp(App):
             y = component_data.get('y', 0)
             w = component_data.get('w', 1)
             h = component_data.get('h', 1)
-            compType = component_data.get('compType')
-            comp_id = component_data.get('id', 'unknown-id')
+            compType = component_data.get('type')
+            comp_id = component_data.get('id')
+            text = component_data.get('label')
             
             # Convert grid positions to percentages of the screen size
             pos_hint_x = x / grid_width
@@ -207,19 +185,19 @@ class MyApp(App):
                 #widget = eval(constructor_call)
                 #widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
                 match compType:
-                    case "PushButton":
-                        widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
-                    case "ToggleButton":
+                    case "Button":
+                        widget = PushButton(text=str(text), id=str(comp_id), size_hint=size_hint, pos_hint=pos_hint)
+                    case "Toggle":
                         print("tog")
-                        #widget = ToggleButtonWidget()
-                    case "SliderWidget":
+                        widget = ToggleButtonWidget(text=str(text), id=str(comp_id), size_hint=size_hint, pos_hint=pos_hint)
+                    case "Slider":
                         #parse slider specific vals
                         min_v = component_data.get("min")
                         max_v = component_data.get("max")
                         
-                        widget = SliderWidget(text=comp_id, min = min_v, max = max_v, id = comp_id, size_hint = size_hint, pos_hint = pos_hint)
+                        widget = SliderWidget(text=str(text), min = min_v, max = max_v, id = str(comp_id), size_hint = size_hint, pos_hint = pos_hint)
                     case "ConsoleWidget":
-                        widget = ConsoleWidget(text = comp_id,id = comp_id, size_hint = size_hint, pos_hint = pos_hint)
+                        widget = ConsoleWidget(text = str(text),id = str(comp_id), size_hint = size_hint, pos_hint = pos_hint)
 
                 main_layout.add_widget(widget)
                 print(f"Created: {widget}")
@@ -245,12 +223,6 @@ class MyApp(App):
         
         except requests.exceptions.RequestException as e:
             print(f"An error occurred: {e}")
-            MyApp.create_components(input_data, self.main_layout)
-        #console = ConsoleWidget(text="System Output", id = 'D', size_hint=(.25, .3), pos_hint={'x':.02, 'y':.4})
-        #self.main_layout.add_widget(console)
-        
-        
-        #Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
         
         return self.main_layout
 
