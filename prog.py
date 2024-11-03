@@ -89,7 +89,7 @@ class SliderWidget(BoxLayout):
         super(SliderWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
 
-        self.slider = Slider(min=min, max= max, value=min)
+        self.slider = Slider(min=min, max= max, value=min) #Inital value passed to value
         self.slider.orientation = 'horizontal'
         self.slider.value_track = True
         self.slider.value_track_color = [1, 0, 0, 1]
@@ -250,7 +250,7 @@ class MyApp(App):
         #self.main_layout.add_widget(console)
         
         
-        Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
+        #Clock.schedule_once(lambda x: self.main_layout.canvas.ask_update(),5)
         
         return self.main_layout
 
