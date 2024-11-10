@@ -24,8 +24,8 @@ import platform
 
 
 # Define the URL
-url = "https://protocontrol.dev/template.php"
-url = "https://protocontrol.dev/api/get-layout?layoutID=36"
+#url = "https://protocontrol.dev/template.php"
+url = "https://protocontrol.dev/api/get-most-recent-layout"
 
 
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
