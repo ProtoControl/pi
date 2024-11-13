@@ -21,11 +21,11 @@ import random
 import string
 
 import platform
-import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
+#import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
-GPIO.setwarnings(False) # Ignore warning for now
-GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
-GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
+#GPIO.setwarnings(False) # Ignore warning for now
+#GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+#GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
 
 # Define the URL
 #url = "https://protocontrol.dev/template.php"
@@ -227,23 +227,23 @@ class MyApp(App):
         
         except requests.exceptions.RequestException as e:
             print(f"An error occurred: {e}")
-        if GPIO.input(17) == GPIO.HIGH:
-            print("Button was pushed!")
-            try:
-            # Make a GET request to the URL
-                response = requests.get(url)
+        # if GPIO.input(17) == GPIO.HIGH:
+        #     print("Button was pushed!")
+        #     try:
+        #     # Make a GET request to the URL
+        #         response = requests.get(url)
                     
-                # Raise an exception if the request was unsuccessful
-                response.raise_for_status()
+        #         # Raise an exception if the request was unsuccessful
+        #         response.raise_for_status()
                             
-                # Parse the JSON response
-                data = response.json()
-                print(data)
-                MyApp.create_components(data,self.main_layout)
-                print("Data successfully retrieved and stored in 'output_data.json'.")
+        #         # Parse the JSON response
+        #         data = response.json()
+        #         print(data)
+        #         MyApp.create_components(data,self.main_layout)
+        #         print("Data successfully retrieved and stored in 'output_data.json'.")
                 
-            except requests.exceptions.RequestException as e:
-                print(f"An error occurred: {e}")
+        #     except requests.exceptions.RequestException as e:
+        #         print(f"An error occurred: {e}")
         return self.main_layout
 
 
