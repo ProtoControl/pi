@@ -152,7 +152,7 @@ class MyApp(App):
         
     def on_start(self):
         print("start")
-        self.main_layout.clear_widgets()
+        #self.main_layout.clear_widgets()
         self.polling_interval = 0.1
         Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
         return True
@@ -164,7 +164,7 @@ class MyApp(App):
         return True
     @classmethod
     def create_components(cls, input_data, main_layout, grid_width=12, grid_height=7):
-        main_layout.clear_widgets()
+        #main_layout.clear_widgets()
         for component_data in input_data:
 
             x = component_data.get('x', 0)
