@@ -204,7 +204,7 @@ class MyApp(App):
                         max_v = component_data.get("max")
                         
                         widget = SliderWidget(text=str(text), min = min_v, max = max_v, id = str(comp_id), size_hint = size_hint, pos_hint = pos_hint)
-                    case "ConsoleWidget":
+                    case "Console":
                         widget = ConsoleWidget(text = str(text),id = str(comp_id), size_hint = size_hint, pos_hint = pos_hint)
 
                 main_layout.add_widget(widget)
