@@ -152,6 +152,7 @@ class MyApp(App):
         
     def on_start(self):
         print("start")
+        self.main_layout.clear_widgets()
         self.polling_interval = 0.1
         Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
         return True
