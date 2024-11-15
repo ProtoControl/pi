@@ -216,6 +216,7 @@ class MyApp(App):
         """Poll GPIO pin 11 for button press."""
         if GPIO.input(11) == GPIO.HIGH:
             print("Button was pushed!")
+            
             try:
                 # Make a GET request to the URL
                 response = requests.get(url)
@@ -226,6 +227,7 @@ class MyApp(App):
                 # Parse the JSON response
                 data = response.json()
                 print(data)
+                self.main_layout.clear_widgets()
                 MyApp.create_components(data, self.main_layout)
                 print("Data successfully retrieved and components created.")
                 
