@@ -152,6 +152,8 @@ class MyApp(App):
         
     def on_start(self):
         print("start")
+        self.polling_interval = 0.1
+        Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
         return True
     def on_stop(self):
         print("stop")
@@ -207,7 +209,28 @@ class MyApp(App):
                 print(f"Created: {widget}")
             except NameError:
                 print(f"Component type {compType} not recognized")
-        
+    
+
+
+    def poll_gpio_button(self, dt):
+        """Poll GPIO pin 11 for button press."""
+        if GPIO.input(11) == GPIO.HIGH:
+            print("Button was pushed!")
+            try:
+                # Make a GET request to the URL
+                response = requests.get(url)
+                
+                # Raise an exception if the request was unsuccessful
+                response.raise_for_status()
+                
+                # Parse the JSON response
+                data = response.json()
+                print(data)
+                MyApp.create_components(data, self.main_layout)
+                print("Data successfully retrieved and components created.")
+                
+            except requests.exceptions.RequestException as e:
+                print(f"An error occurred: {e}")
     def build(self):
         # Define a 4x3 GridLayout
         self.main_layout = FloatLayout()
@@ -227,26 +250,27 @@ class MyApp(App):
         
         except requests.exceptions.RequestException as e:
             print(f"An error occurred: {e}")
-        if GPIO.input(11) == GPIO.HIGH:
-            print("Button was pushed!")
-            try:
-            # Make a GET request to the URL
-                response = requests.get(url)
-                    
-                # Raise an exception if the request was unsuccessful
-                response.raise_for_status()
-                            
-                # Parse the JSON response
-                data = response.json()
-                print(data)
-                MyApp.create_components(data,self.main_layout)
-                print("Data successfully retrieved and stored in 'output_data.json'.")
-                
-            except requests.exceptions.RequestException as e:
-                print(f"An error occurred: {e}")
+        
         return self.main_layout
 
 
 if __name__ == '__main__':
     MyApp().run()
+    # if GPIO.input(11) == GPIO.HIGH:
+    #     print("Button was pushed!")
+    #     try:
+    #     # Make a GET request to the URL
+    #         response = requests.get(url)
+                
+    #         # Raise an exception if the request was unsuccessful
+    #         response.raise_for_status()
+                        
+    #         # Parse the JSON response
+    #         data = response.json()
+    #         print(data)
+    #         MyApp.create_components(data,self.main_layout)
+    #         print("Data successfully retrieved and stored in 'output_data.json'.")
+            
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"An error occurred: {e}")
 
