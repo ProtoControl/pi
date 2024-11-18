@@ -31,6 +31,7 @@ GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input 
 #url = "https://protocontrol.dev/template.php"
 url = "https://protocontrol.dev/api/get-most-recent-layout"
 
+ser = None
 
 # Set the custom screen ratio (e.g., 800x480 for a widescreen format)
 Window.size = (800, 480)
@@ -49,7 +50,7 @@ else:
         import serial  # Import serial module only if not in debug mode
 
         try:
-            global ser = serial.Serial(
+            ser = serial.Serial(
                 port='/dev/ttyACM0',  # Replace with your serial port
                 baudrate=115200,
                 timeout=1
@@ -243,7 +244,7 @@ class MyApp(App):
                 
             except requests.exceptions.RequestException as e:
                 print(f"An error occurred: {e}")
-        if ser.in_waiting > 0:
+        if ser and ser.in_waiting > 0:
             message = ser.read(ser.in_waiting).decode('utf-8').strip()
             print(message)
             if hasattr(self, 'console_widget') and self.consoleWidget:
