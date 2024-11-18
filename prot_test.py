@@ -50,7 +50,7 @@ else:
 
         try:
             ser = serial.Serial(
-                port='/dev/tty0',  # Replace with your serial port
+                port='/dev/ttyACM0',  # Replace with your serial port
                 baudrate=115200,
                 timeout=1
             )
@@ -218,6 +218,14 @@ class MyApp(App):
         """Poll GPIO pin 11 for button press."""
         if GPIO.input(11) == GPIO.HIGH:
             print("Button was pushed!")
+            try:
+                ser = serial.Serial(
+                    port='/dev/ttyACM0',  # Replace with your serial port
+                    baudrate=115200,
+                    timeout=1
+                )
+            except serial.SerialException as e:
+                print(f"Error opening serial port: {e}")
             
             try:
                 # Make a GET request to the URL
@@ -238,6 +246,10 @@ class MyApp(App):
         if ser.in_waiting > 0:
             message = ser.read(ser.in_waiting).decode('utf-8').strip()
             print(message)
+            if hasattr(self, 'console_widget') and self.consoleWidget:
+                self.consoleWidget.write_to_console(message)
+            else:
+                print("NO CONSOLE")
             
     def build(self):
         # Define a 4x3 GridLayout
