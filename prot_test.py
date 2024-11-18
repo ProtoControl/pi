@@ -49,7 +49,7 @@ else:
         import serial  # Import serial module only if not in debug mode
 
         try:
-            ser = serial.Serial(
+            global ser = serial.Serial(
                 port='/dev/ttyACM0',  # Replace with your serial port
                 baudrate=115200,
                 timeout=1
