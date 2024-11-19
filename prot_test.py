@@ -243,7 +243,7 @@ class MyApp(App):
         
         if ser.in_waiting > 0:
             message = ser.read(ser.in_waiting).decode('utf-8').strip()
-            print(message)
+            #print(message)
             
             self.consoleWidget.write_to_console(message)
             
