@@ -227,22 +227,6 @@ class MyApp(App):
         if GPIO.input(11) == GPIO.HIGH:
             print("Button was pushed!")
             
-            try:
-                # Make a GET request to the URL
-                response = requests.get(url)
-                
-                # Raise an exception if the request was unsuccessful
-                response.raise_for_status()
-                
-                # Parse the JSON response
-                data = response.json()
-                print(data)
-                self.main_layout.clear_widgets()
-                MyApp.create_components(data, self.main_layout)
-                print("Data successfully retrieved and components created.")
-                
-            except requests.exceptions.RequestException as e:
-                print(f"An error occurred: {e}")
         
         if ser.in_waiting > 0:
             message = ser.read(ser.in_waiting).decode('utf-8').strip()
@@ -258,21 +242,8 @@ class MyApp(App):
 
         self.consoleWidget = ConsoleWidget(text="System Output", id='console', size_hint=(0.3, 0.2), pos_hint={'x': 0.5, 'y': 0.4})
         self.main_layout.add_widget(self.consoleWidget)
-        try:
-        # Make a GET request to the URL
-            response = requests.get(url)
-            
-            # Raise an exception if the request was unsuccessful
-            response.raise_for_status()
-            
-            # Parse the JSON response
-            data = response.json()
-            print(data)
-            MyApp.create_components(data,self.main_layout)
-            print("Data successfully retrieved and stored in 'output_data.json'.")
         
-        except requests.exceptions.RequestException as e:
-            print(f"An error occurred: {e}")
+        tog = ToggleButton(text="Heater",id = "toggle",size_hint=(0.1, 0.2), pos_hint={'x': 0.1, 'y': 0.2})
         
         return self.main_layout
 
