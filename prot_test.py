@@ -244,7 +244,7 @@ class MyApp(App):
         self.main_layout.add_widget(self.consoleWidget)
         
         tog = ToggleButton(text="Heater",id = "toggle",size_hint=(0.1, 0.2), pos_hint={'x': 0.1, 'y': 0.2})
-        
+        self.main_layout.add_widget(tog)
         return self.main_layout
 
 
