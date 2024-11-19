@@ -49,14 +49,13 @@ else:
     if platform.system() == 'Linux':  # Assuming Raspberry Pi is running Linux
         import serial  # Import serial module only if not in debug mode
 
-        try:
-            ser = serial.Serial(
-                port='/dev/ttyACM0',  # Replace with your serial port
-                baudrate=115200,
-                timeout=1
-            )
-        except serial.SerialException as e:
-            print(f"Error opening serial port: {e}")
+        
+        ser = serial.Serial(
+            port='/dev/ttyACM0',  # Replace with your serial port
+            baudrate=115200,
+            timeout=1
+        )
+        
     else:
         print("This script is not running on a supported system for UART.")
 
