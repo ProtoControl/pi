@@ -86,7 +86,7 @@ class ToggleButtonWidget(ToggleButton):
         self.id = id
         self.text = text
     def on_state(self, widget, value):
-        message = f"{self.id},{value}"
+        message = str(value)
         print(message)
         if not debug_mode:
             ser.write(message.encode('utf-8'))
@@ -244,7 +244,7 @@ class MyApp(App):
         if ser.in_waiting > 0:
             message = ser.read(ser.in_waiting).decode('utf-8').strip()
             print(message)
-            if hasattr(self, 'console_widget') and self.consoleWidget:
+            if self.consoleWidget:
                 self.consoleWidget.write_to_console(message)
             else:
                 print("NO CONSOLE")
