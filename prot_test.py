@@ -256,7 +256,7 @@ class MyApp(App):
         self.main_layout = FloatLayout()
         Window.clearcolor = (0.7, 0.7, 0.7, 1)
 
-        self.consoleWidget = ConsoleWidget(text="System Output", id='console', size_hint=(0.25, 0.5), pos_hint={'x': 0.6, 'y': 0.4})
+        self.consoleWidget = ConsoleWidget(text="System Output", id='console', size_hint=(0.4, 0.15), pos_hint={'x': 0.6, 'y': 0.4})
         self.main_layout.add_widget(self.consoleWidget)
         try:
         # Make a GET request to the URL
