@@ -244,10 +244,9 @@ class MyApp(App):
         if ser.in_waiting > 0:
             message = ser.read(ser.in_waiting).decode('utf-8').strip()
             print(message)
-            if self.consoleWidget:
-                self.consoleWidget.write_to_console(message)
-            else:
-                print("NO CONSOLE")
+            
+            self.consoleWidget.write_to_console(message)
+            
             
     def build(self):
         # Define a 4x3 GridLayout
