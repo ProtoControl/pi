@@ -244,13 +244,14 @@ class MyApp(App):
                 
             except requests.exceptions.RequestException as e:
                 print(f"An error occurred: {e}")
-        if ser and ser.in_waiting > 0:
-            message = ser.read(ser.in_waiting).decode('utf-8').strip()
-            print(message)
-            if hasattr(self, 'console_widget') and self.consoleWidget:
-                self.consoleWidget.write_to_console(message)
-            else:
-                print("NO CONSOLE")
+        if not debug_mode:
+            if ser.in_waiting > 0:
+                message = ser.read(ser.in_waiting).decode('utf-8').strip()
+                print(message)
+                if hasattr(self, 'console_widget') and self.consoleWidget:
+                    self.consoleWidget.write_to_console(message)
+                else:
+                    print("NO CONSOLE")
             
     def build(self):
         # Define a 4x3 GridLayout
