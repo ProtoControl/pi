@@ -86,7 +86,10 @@ class ToggleButtonWidget(ToggleButton):
         self.id = id
         self.text = text
     def on_state(self, widget, value):
-        message = str(value)
+        if(self.state == "normal"):
+            message = "0"
+        else:
+            message = "1"
         print(message)
         if not debug_mode:
             ser.write(message.encode('utf-8'))
