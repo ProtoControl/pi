@@ -231,7 +231,6 @@ class MyApp(App):
         if ser.in_waiting > 0:
             message = ser.read(ser.in_waiting).decode('utf-8').strip()
             #print(message)
-            
             self.consoleWidget.write_to_console(message)
             
             
@@ -243,8 +242,9 @@ class MyApp(App):
         self.consoleWidget = ConsoleWidget(text="System Output", id='console', size_hint=(0.3, 0.2), pos_hint={'x': 0.5, 'y': 0.4})
         self.main_layout.add_widget(self.consoleWidget)
         
-        tog = ToggleButton(text="Heater",size_hint=(0.1, 0.2), pos_hint={'x': 0.1, 'y': 0.2})
+        tog = ToggleButtonWidget(text="Heater",id="tog",size_hint=(0.1, 0.2), pos_hint={'x': 0.1, 'y': 0.2})
         self.main_layout.add_widget(tog)
+
         return self.main_layout
 
 
