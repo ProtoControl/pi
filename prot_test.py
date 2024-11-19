@@ -39,6 +39,11 @@ debug_mode = '-d' in sys.argv
 #Window.fullscreen = 'auto'
 
 
+ser = serial.Serial(
+            port='/dev/ttyACM0',  # Replace with your serial port
+            baudrate=115200,
+            timeout=1
+        )
 if platform.system() == 'Windows':
     print("Running on Windows")
     debug_mode = True  # Automatically enable debug mode on Windows
