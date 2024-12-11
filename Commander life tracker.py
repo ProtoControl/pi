@@ -24,10 +24,10 @@ class LifeTrackerApp(App):
 
     def create_player_tracker(self, player, invert=False):
         # Container for player tracker
-        player_box = BoxLayout(orientation='vertical' if not invert else 'vertical', spacing=10)
+        player_box = BoxLayout(orientation='vertical', spacing=10)
 
         # Life total label
-        life_label = Label(text="40", font_size=50, bold=True, angle=180 if invert else 0)
+        life_label = Label(text="40", font_size=50, bold=True)
 
         # Adjust buttons layout
         button_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=50)
