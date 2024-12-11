@@ -27,7 +27,7 @@ class LifeTrackerApp(App):
         player_box = BoxLayout(orientation='vertical' if not invert else 'vertical', spacing=10)
 
         # Life total label
-        life_label = Label(text="40", font_size=50, bold=True)
+        life_label = Label(text="40", font_size=50, bold=True, angle=180 if invert else 0)
 
         # Adjust buttons layout
         button_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=50)
@@ -42,9 +42,9 @@ class LifeTrackerApp(App):
 
         if invert:
             # Add elements in inverted order
-            player_box.add_widget(button_layout)
             button_layout.add_widget(plus_button)
             button_layout.add_widget(minus_button)
+            player_box.add_widget(button_layout)
             player_box.add_widget(life_label)
         else:
             # Add elements in normal order
