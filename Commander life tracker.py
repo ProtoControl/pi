@@ -1,5 +1,3 @@
-#Commander life tracker
-
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -13,12 +11,21 @@ Config.set('graphics', 'fullscreen', 'auto')
 
 class LifeTrackerApp(App):
     def build(self):
-        # Main layout: 2x2 grid
-        main_layout = GridLayout(cols=2, rows=2, spacing=10, padding=10)
+        # Main layout: 3x3 grid
+        main_layout = GridLayout(cols=3, rows=3, spacing=10, padding=10)
 
-        # Create a life tracker for each player
-        for player in range(1, 5):
-            main_layout.add_widget(self.create_player_tracker(player))
+        # Fill in players and center area
+        main_layout.add_widget(self.create_player_tracker(1))  # Top-left
+        main_layout.add_widget(Label())  # Top-center (empty)
+        main_layout.add_widget(self.create_player_tracker(2))  # Top-right
+
+        main_layout.add_widget(Label())  # Middle-left (empty)
+        main_layout.add_widget(self.create_center_area())  # Center area
+        main_layout.add_widget(Label())  # Middle-right (empty)
+
+        main_layout.add_widget(self.create_player_tracker(3))  # Bottom-left
+        main_layout.add_widget(Label())  # Bottom-center (empty)
+        main_layout.add_widget(self.create_player_tracker(4))  # Bottom-right
 
         return main_layout
 
@@ -52,6 +59,13 @@ class LifeTrackerApp(App):
         anchored_box = AnchorLayout(anchor_x='center', anchor_y='center')
         anchored_box.add_widget(player_box)
 
+        return anchored_box
+
+    def create_center_area(self):
+        # Center area can be used for additional features (e.g., reset button)
+        center_label = Label(text="Commander Life Tracker", font_size=30, bold=True)
+        anchored_box = AnchorLayout(anchor_x='center', anchor_y='center')
+        anchored_box.add_widget(center_label)
         return anchored_box
 
     def change_life(self, label, amount):
