@@ -11,27 +11,20 @@ Config.set('graphics', 'fullscreen', 'auto')
 
 class LifeTrackerApp(App):
     def build(self):
-        # Main layout: 3x3 grid
-        main_layout = GridLayout(cols=3, rows=3, spacing=10, padding=10)
+        # Main layout: 2x2 grid
+        main_layout = GridLayout(cols=2, rows=2, spacing=10, padding=10)
 
-        # Fill in players and center area
-        main_layout.add_widget(self.create_player_tracker(1))  # Top-left
-        main_layout.add_widget(Label())  # Top-center (empty)
-        main_layout.add_widget(self.create_player_tracker(2))  # Top-right
-
-        main_layout.add_widget(Label())  # Middle-left (empty)
-        main_layout.add_widget(self.create_center_area())  # Center area
-        main_layout.add_widget(Label())  # Middle-right (empty)
-
-        main_layout.add_widget(self.create_player_tracker(3))  # Bottom-left
-        main_layout.add_widget(Label())  # Bottom-center (empty)
-        main_layout.add_widget(self.create_player_tracker(4))  # Bottom-right
+        # Add player trackers to the grid
+        main_layout.add_widget(self.create_player_tracker(1, invert=True))  # Top-left (inverted)
+        main_layout.add_widget(self.create_player_tracker(2, invert=True))  # Top-right (inverted)
+        main_layout.add_widget(self.create_player_tracker(3, invert=False))  # Bottom-left
+        main_layout.add_widget(self.create_player_tracker(4, invert=False))  # Bottom-right
 
         return main_layout
 
-    def create_player_tracker(self, player):
+    def create_player_tracker(self, player, invert=False):
         # Container for player tracker
-        player_box = BoxLayout(orientation='vertical', spacing=10)
+        player_box = BoxLayout(orientation='vertical' if not invert else 'vertical', spacing=10)
 
         # Life total label
         life_label = Label(text="40", font_size=50, bold=True)
@@ -47,25 +40,23 @@ class LifeTrackerApp(App):
         plus_button = Button(text="+", font_size=40, size_hint=(0.4, 1))
         plus_button.bind(on_press=lambda instance: self.change_life(life_label, 1))
 
-        # Add buttons to the layout
-        button_layout.add_widget(minus_button)
-        button_layout.add_widget(plus_button)
-
-        # Add elements to the player box
-        player_box.add_widget(life_label)
-        player_box.add_widget(button_layout)
+        if invert:
+            # Add elements in inverted order
+            player_box.add_widget(button_layout)
+            button_layout.add_widget(plus_button)
+            button_layout.add_widget(minus_button)
+            player_box.add_widget(life_label)
+        else:
+            # Add elements in normal order
+            player_box.add_widget(life_label)
+            button_layout.add_widget(minus_button)
+            button_layout.add_widget(plus_button)
+            player_box.add_widget(button_layout)
 
         # Anchor the box to center
         anchored_box = AnchorLayout(anchor_x='center', anchor_y='center')
         anchored_box.add_widget(player_box)
 
-        return anchored_box
-
-    def create_center_area(self):
-        # Center area can be used for additional features (e.g., reset button)
-        center_label = Label(text="Commander Life Tracker", font_size=30, bold=True)
-        anchored_box = AnchorLayout(anchor_x='center', anchor_y='center')
-        anchored_box.add_widget(center_label)
         return anchored_box
 
     def change_life(self, label, amount):
