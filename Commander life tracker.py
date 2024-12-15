@@ -27,18 +27,22 @@ class LifeTrackerApp(App):
         player_box = BoxLayout(orientation='vertical', spacing=10)
 
         # Life total label
-        life_label = Label(text="40", font_size=50, bold=True)
+        life_label = Label(text="40", font_size=150, bold=True)
+        
+        # Rotate the top two labels (players 1 and 2)
+        if invert:
+            life_label.rotation = 180
 
         # Adjust buttons layout
-        button_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=50)
+        button_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=70)
 
         # Minus button
         minus_button = Button(text="-", font_size=40, size_hint=(0.4, 1))
-        minus_button.bind(on_press=lambda instance: self.change_life(life_label, -1))
+        #minus_button.bind(on_press=lambda instance: self.change_life(life_label, -1))
 
         # Plus button
         plus_button = Button(text="+", font_size=40, size_hint=(0.4, 1))
-        plus_button.bind(on_press=lambda instance: self.change_life(life_label, 1))
+        #plus_button.bind(on_press=lambda instance: self.change_life(life_label, 1))
 
         if invert:
             # Add elements in inverted order
@@ -46,6 +50,7 @@ class LifeTrackerApp(App):
             button_layout.add_widget(minus_button)
             player_box.add_widget(button_layout)
             player_box.add_widget(life_label)
+            
         else:
             # Add elements in normal order
             player_box.add_widget(life_label)
