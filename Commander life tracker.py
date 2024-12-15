@@ -38,11 +38,11 @@ class LifeTrackerApp(App):
 
         # Minus button
         minus_button = Button(text="-", font_size=40, size_hint=(0.4, 1))
-        #minus_button.bind(on_press=lambda instance: self.change_life(life_label, -1))
+        minus_button.bind(on_press=lambda instance: self.change_life(life_label, -1))
 
         # Plus button
         plus_button = Button(text="+", font_size=40, size_hint=(0.4, 1))
-        #plus_button.bind(on_press=lambda instance: self.change_life(life_label, 1))
+        plus_button.bind(on_press=lambda instance: self.change_life(life_label, 1))
 
         if invert:
             # Add elements in inverted order
