@@ -21,11 +21,6 @@ import random
 import string
 
 import platform
-import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
-
-GPIO.setwarnings(False) # Ignore warning for now
-GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
-GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
 
 # Define the URL
 #url = "https://protocontrol.dev/template.php"
@@ -47,6 +42,11 @@ if debug_mode:
 else:
     if platform.system() == 'Linux':  # Assuming Raspberry Pi is running Linux
         import serial  # Import serial module only if not in debug mode
+        import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
+
+        GPIO.setwarnings(False) # Ignore warning for now
+        GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+        GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
 
         try:
             ser = serial.Serial(
@@ -59,6 +59,24 @@ else:
     else:
         print("This script is not running on a supported system for UART.")
 
+
+def hex_to_rgba(hex_color):
+    # Remove the '#' if present
+    hex_color = hex_color.lstrip('#')
+    
+    # Ensure valid length of hex input
+    if len(hex_color) not in (6, 8):
+        raise ValueError("Hex color must be in the format '#RRGGBB' or '#RRGGBBAA'")
+    
+    # Extract RGB values
+    r = int(hex_color[0:2], 16) / 255
+    g = int(hex_color[2:4], 16) / 255
+    b = int(hex_color[4:6], 16) / 255
+    
+    # Extract alpha value if present, otherwise default to 1
+    a = int(hex_color[6:8], 16) / 255 if len(hex_color) == 8 else 1
+    
+    return (r, g, b, a)
 
 class PushButton(Button):
     def __init__(self, text, id, color = (1,1,1,1), **kwargs):
@@ -187,14 +205,17 @@ class MyApp(App):
             # Create pos_hint and size_hint
             pos_hint = {'x': pos_hint_x, 'y': pos_hint_y}
             size_hint = (size_hint_w, size_hint_h)
-            
+
+            color = hex_to_rgba(hex_color=component_data.get('primaryColor'))
+            print(color)
             # Dynamically create the widget using eval
             try:
                 #widget = eval(constructor_call)
                 #widget = PushButton(text=comp_id, id=comp_id, size_hint=size_hint, pos_hint=pos_hint)
                 match compType:
                     case "Button":
-                        widget = PushButton(text=str(text), id=str(comp_id), size_hint=size_hint, pos_hint=pos_hint)
+                        
+                        widget = PushButton(text=str(text), id=str(comp_id), color=color,size_hint=size_hint, pos_hint=pos_hint)
                     case "Toggle":
                         print("tog")
                         widget = ToggleButtonWidget(text=str(text), id=str(comp_id), size_hint=size_hint, pos_hint=pos_hint)
@@ -216,25 +237,26 @@ class MyApp(App):
 
     def poll_gpio_button(self, dt):
         """Poll GPIO pin 11 for button press."""
-        if GPIO.input(11) == GPIO.HIGH:
-            print("Button was pushed!")
-            
-            try:
-                # Make a GET request to the URL
-                response = requests.get(url)
+        if not debug_mode:
+            if GPIO.input(11) == GPIO.HIGH:
+                print("Button was pushed!")
                 
-                # Raise an exception if the request was unsuccessful
-                response.raise_for_status()
-                
-                # Parse the JSON response
-                data = response.json()
-                print(data)
-                self.main_layout.clear_widgets()
-                MyApp.create_components(data, self.main_layout)
-                print("Data successfully retrieved and components created.")
-                
-            except requests.exceptions.RequestException as e:
-                print(f"An error occurred: {e}")
+                try:
+                    # Make a GET request to the URL
+                    response = requests.get(url)
+                    
+                    # Raise an exception if the request was unsuccessful
+                    response.raise_for_status()
+                    
+                    # Parse the JSON response
+                    data = response.json()
+                    print(data)
+                    self.main_layout.clear_widgets()
+                    MyApp.create_components(data, self.main_layout)
+                    print("Data successfully retrieved and components created.")
+                    
+                except requests.exceptions.RequestException as e:
+                    print(f"An error occurred: {e}")
     def build(self):
         # Define a 4x3 GridLayout
         self.main_layout = FloatLayout()
