@@ -1,63 +1,62 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-from kivy.core.window import Window
-
-class WifiLoginScreen(BoxLayout):
-    def __init__(self, **kwargs):
-        super(WifiLoginScreen, self).__init__(**kwargs)
-        self.orientation = "vertical"
-        self.padding = 20
-        self.spacing = 10
-
-        # Add a label
-        self.add_widget(Label(text="Enter Wi-Fi Password", font_size=24, size_hint=(1, 0.2)))
-
-        # TextInput for password entry
-        self.password_input = TextInput(
-            password=True,
-            multiline=False,
-            size_hint=(1, 0.2),
-            font_size=20,
-        )
-        self.add_widget(self.password_input)
-
-        # Submit button
-        submit_btn = Button(
-            text="Connect",
-            size_hint=(1, 0.2),
-            font_size=20,
-        )
-        submit_btn.bind(on_release=self.submit_password)
-        self.add_widget(submit_btn)
-
-        # Add a button to clear the input
-        clear_btn = Button(
-            text="Clear",
-            size_hint=(1, 0.2),
-            font_size=20,
-        )
-        clear_btn.bind(on_release=self.clear_input)
-        self.add_widget(clear_btn)
-
-    def submit_password(self, instance):
-        # Handle the submitted password
-        password = self.password_input.text
-        print(f"Password entered: {password}")
-        # Logic to connect to Wi-Fi can be added here
-
-    def clear_input(self, instance):
-        self.password_input.text = ""
+from kivy.uix.vkeyboard import VKeyboard
 
 
-class WifiLoginApp(App):
+class KeyboardApp(App):
     def build(self):
-        # Enable the virtual keyboard for the app
-        Window.softinput_mode = "pan"
-        return WifiLoginScreen()
+        # Root layout
+        root = BoxLayout(orientation="vertical", spacing=10, padding=10)
+
+        # Text input for password entry
+        self.text_input = TextInput(
+            hint_text="Enter password",
+            password=True,  # Mask input for password
+            size_hint=(1, 0.2),
+            multiline=False
+        )
+        root.add_widget(self.text_input)
+
+        # Virtual keyboard
+        self.keyboard = VKeyboard(
+            size_hint=(1, 0.5),
+            on_key_down=self.on_key_down
+        )
+        root.add_widget(self.keyboard)
+
+        # Button layout
+        button_layout = BoxLayout(size_hint=(1, 0.3), spacing=10)
+
+        # Connect button
+        connect_button = Button(text="Connect", on_press=self.on_connect)
+        button_layout.add_widget(connect_button)
+
+        # Clear button
+        clear_button = Button(text="Clear", on_press=self.on_clear)
+        button_layout.add_widget(clear_button)
+
+        root.add_widget(button_layout)
+
+        return root
+
+    def on_key_down(self, instance, keycode, text, modifiers):
+        """Handles keypress events on the virtual keyboard."""
+        if text:
+            self.text_input.text += text
+        elif keycode[1] == 'backspace':
+            self.text_input.text = self.text_input.text[:-1]
+
+    def on_connect(self, instance):
+        """Handles the Connect button press."""
+        entered_text = self.text_input.text
+        print(f"Entered password: {entered_text}")
+
+    def on_clear(self, instance):
+        """Handles the Clear button press."""
+        self.text_input.text = ""
 
 
 if __name__ == "__main__":
-    WifiLoginApp().run()
+    KeyboardApp().run()
