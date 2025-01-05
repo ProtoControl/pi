@@ -5,7 +5,6 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.spinner import Spinner
 from kivy.uix.vkeyboard import VKeyboard
-from kivy.uix.label import Label
 
 
 class KeyboardApp(App):
@@ -38,13 +37,17 @@ class KeyboardApp(App):
         # Button layout
         button_layout = BoxLayout(size_hint=(1, 0.1), spacing=10)
 
+        # Show password button
+        show_pwd = Button(text="Show PWD", on_press=self.on_show)
+        button_layout.add_widget(show_pwd)
+
         # Clear button
         clear_button = Button(text="Clear", on_press=self.on_clear)
         button_layout.add_widget(clear_button)
 
         # Connect button
-        connect_button = Button(text="Connect", on_press=self.on_connect)
-        button_layout.add_widget(connect_button)
+        self.connect_button = Button(text="Connect", on_press=self.on_connect)
+        button_layout.add_widget(self.connect_button)
 
         root.add_widget(button_layout)
 
@@ -60,14 +63,14 @@ class KeyboardApp(App):
                 text=True,
                 check=True
             )
-            # Parse output to extract SSIDs
-            networks = []
+            # Parse output to extract unique SSIDs
+            networks = set()  # Use a set to avoid duplicates
             for line in result.stdout.splitlines():
                 if "ESSID" in line:
                     ssid = line.split(":")[1].strip('"')
                     if ssid:  # Ignore empty SSIDs
-                        networks.append(ssid)
-            return networks if networks else ["No networks found"]
+                        networks.add(ssid)
+            return list(networks) if networks else ["No networks found"]
         except subprocess.CalledProcessError as e:
             print(f"Error scanning networks: {e}")
             return ["Error scanning"]
@@ -94,21 +97,38 @@ class KeyboardApp(App):
             print("Please enter a password.")
             return
 
-        # Connect to Wi-Fi using nmcli
-        try:
-            result = subprocess.run(
-                ["sudo", "nmcli", "dev", "wifi", "connect", selected_network, "password", entered_password],
-                capture_output=True,
-                text=True,
-                check=True
-            )
-            print(f"Connected to {selected_network}: {result.stdout}")
-        except subprocess.CalledProcessError as e:
-            print(f"Failed to connect to {selected_network}: {e.stderr}")
+        # Indicate that connection is in progress
+        self.connect_button.text = "Connecting..."
+        self.connect_button.disabled = True
+
+        def connect():
+            # Connect to Wi-Fi using nmcli
+            try:
+                result = subprocess.run(
+                    ["sudo", "nmcli", "dev", "wifi", "connect", selected_network, "password", entered_password],
+                    capture_output=True,
+                    text=True,
+                    check=True
+                )
+                print(f"Connected to {selected_network}: {result.stdout}")
+            except subprocess.CalledProcessError as e:
+                print(f"Failed to connect to {selected_network}: {e.stderr}")
+            finally:
+                # Reset the button state
+                self.connect_button.text = "Connect"
+                self.connect_button.disabled = False
+
+        # Run the connection process in a background thread to avoid blocking the UI
+        from threading import Thread
+        Thread(target=connect).start()
 
     def on_clear(self, instance):
         """Handles the Clear button press."""
         self.text_input.text = ""
+
+    def on_show(self, instance):
+        """Toggles password visibility."""
+        self.text_input.password = not self.text_input.password
 
 
 if __name__ == "__main__":
