@@ -24,8 +24,9 @@ class KeyboardApp(App):
         self.text_input = TextInput(
             hint_text="Enter password",
             password=True,  # Mask input for password
-            size_hint=(1, 0.2),
-            multiline=False
+            size_hint=(1, 0.1),
+            multiline=False,
+            font_size=50
         )
         root.add_widget(self.text_input)
 
@@ -38,7 +39,7 @@ class KeyboardApp(App):
         button_layout = BoxLayout(size_hint=(1, 0.1), spacing=10)
 
         # Show password button
-        show_pwd = Button(text="Show PWD", on_press=self.on_show)
+        show_pwd = Button(text="Show Password", on_press=self.on_show)
         button_layout.add_widget(show_pwd)
 
         # Clear button
