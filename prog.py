@@ -21,7 +21,12 @@ import random
 import string
 
 import platform
+import hashlib
 
+
+from wifi import KeyboardApp
+
+keyboard_app = KeyboardApp()
 # Define the URL
 #url = "https://protocontrol.dev/template.php"
 url = "https://protocontrol.dev/api/get-most-recent-layout"
@@ -281,6 +286,7 @@ class MyApp(App):
 
 
 if __name__ == '__main__':
+    keyboard_app.run()
     MyApp().run()
     # if GPIO.input(11) == GPIO.HIGH:
     #     print("Button was pushed!")

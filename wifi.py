@@ -112,6 +112,7 @@ class KeyboardApp(App):
                     check=True
                 )
                 print(f"Connected to {selected_network}: {result.stdout}")
+                self.stop()
             except subprocess.CalledProcessError as e:
                 print(f"Failed to connect to {selected_network}: {e.stderr}")
             finally:
