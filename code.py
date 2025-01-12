@@ -16,7 +16,7 @@ def generate_device_code():
                     break
             else:
                 raise ValueError("Hardware ID not found in /proc/cpuinfo")
-        £print(hardware_id)
+        print(hardware_id)
         # Hash the hardware ID to ensure uniqueness
         hash_obj = hashlib.sha256(hardware_id.encode())
         hashed_value = int(hash_obj.hexdigest(), 16)
