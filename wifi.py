@@ -5,7 +5,9 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.spinner import Spinner
 from kivy.uix.vkeyboard import VKeyboard
+from kivy.core.window import Window
 
+Window.size = (800, 480)
 
 class KeyboardApp(App):
     def build(self):
@@ -26,7 +28,7 @@ class KeyboardApp(App):
             password=True,  # Mask input for password
             size_hint=(1, 0.1),
             multiline=False,
-            font_size=50
+            font_size=30
         )
         root.add_widget(self.text_input)
 

@@ -1,11 +1,14 @@
 import hashlib
 
-def generate_device_code():
+def generate_alphanumeric_code(length=8):
     """
-    Generate a unique 4-digit code for a Raspberry Pi using its hardware ID.
+    Generate an alphanumeric code based on the Raspberry Pi's hardware ID.
+
+    Args:
+        length (int): Length of the alphanumeric code. Default is 8 characters.
 
     Returns:
-        int: A 4-digit code unique to the device.
+        str: An alphanumeric code unique to the device.
     """
     try:
         # Read the hardware ID from /proc/cpuinfo
@@ -16,22 +19,21 @@ def generate_device_code():
                     break
             else:
                 raise ValueError("Hardware ID not found in /proc/cpuinfo")
-        print(hardware_id)
+        
         # Hash the hardware ID to ensure uniqueness
         hash_obj = hashlib.sha256(hardware_id.encode())
-        hashed_value = int(hash_obj.hexdigest(), 16)
+        hashed_value = hash_obj.hexdigest()
         
-        # Generate a 4-digit code (use modulo to ensure it fits 4 digits)
-        device_code = hashed_value % 10000
-        return device_code
+        # Generate an alphanumeric code of the specified length
+        alphanumeric_code = hashed_value[:length].upper()  # Use uppercase for consistency
+        return alphanumeric_code
 
     except Exception as e:
-        print(f"Error generating device code: {e}")
+        print(f"Error generating alphanumeric code: {e}")
         return None
 
 # Example usage
 if __name__ == "__main__":
-    code = generate_device_code()
-    if code is not None:
-        print(f"Unique device code: {code:04d}")
-        print(code)
+    code = generate_alphanumeric_code(8)  # Generate an 8-character alphanumeric code
+    if code:
+        print(f"Unique alphanumeric code: {code}")
