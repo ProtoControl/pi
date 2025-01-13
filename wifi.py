@@ -6,6 +6,7 @@ from kivy.uix.button import Button
 from kivy.uix.spinner import Spinner
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.core.window import Window
+from kivy.clock import Clock
 
 Window.size = (800, 480)
 
@@ -33,9 +34,9 @@ class KeyboardApp(App):
         root.add_widget(self.text_input)
 
         # Virtual keyboard
-        self.keyboard = VKeyboard(size_hint=(1, 0.5))
-        self.keyboard.bind(on_key_up=self.on_key_up)
-        root.add_widget(self.keyboard)
+        Clock.schedule_once(self.add_keyboard, 1)
+        
+        
 
         # Button layout
         button_layout = BoxLayout(size_hint=(1, 0.1), spacing=10)
@@ -55,7 +56,11 @@ class KeyboardApp(App):
         root.add_widget(button_layout)
 
         return root
-
+    def add_keyboard(self, *args):
+        # Now the window should be fully accessible
+        self.keyboard = VKeyboard(size_hint=(1, 0.5))
+        self.keyboard.bind(on_key_up=self.on_key_up)
+        root.add_widget(self.keyboard)
     def get_wifi_networks(self):
         """Scans for available Wi-Fi networks."""
         try:

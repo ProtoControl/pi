@@ -19,7 +19,7 @@ def generate_alphanumeric_code(length=8):
                     break
             else:
                 raise ValueError("Hardware ID not found in /proc/cpuinfo")
-        
+        print(hardware_id)
         # Hash the hardware ID to ensure uniqueness
         hash_obj = hashlib.sha256(hardware_id.encode())
         hashed_value = hash_obj.hexdigest()
