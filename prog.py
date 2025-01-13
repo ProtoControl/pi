@@ -300,9 +300,26 @@ class WiFiScreen(Screen):
         self.add_widget(self.root_layout)
 
     def get_wifi_networks(self):
-        """Placeholder for real Wi-Fi scanning logic."""
-        return ["Network1", "Network2", "Network3"]
-
+        """Scans for available Wi-Fi networks."""
+        try:
+            # Run the iwlist command to scan for networks
+            result = subprocess.run(
+                ["sudo", "iwlist", "wlan0", "scan"],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            # Parse output to extract unique SSIDs
+            networks = set()  # Use a set to avoid duplicates
+            for line in result.stdout.splitlines():
+                if "ESSID" in line:
+                    ssid = line.split(":")[1].strip('"')
+                    if ssid:  # Ignore empty SSIDs
+                        networks.add(ssid)
+            return list(networks) if networks else ["No networks found"]
+        except subprocess.CalledProcessError as e:
+            print(f"Error scanning networks: {e}")
+            return ["Error scanning"]
     def on_show(self, instance):
         """Handle showing/hiding password."""
         # Toggle password masking
