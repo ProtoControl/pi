@@ -26,6 +26,9 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition
 
+import hashlib
+from code import generate_alphanumeric_code
+
 debug_mode = '-d' in sys.argv
 Window.size = (800, 480)
 
@@ -162,6 +165,8 @@ class ConfigScreen(Screen):
         device_info_container = GrayBox(orientation='vertical', size_hint=(1, 3), padding=10, spacing=5)
         device_info_box = GridLayout(cols=1, spacing=5, size_hint_y=3)
 
+        #Code generation
+        self.code = generate_alphanumeric_code()
         device_info_box.add_widget(Label(
             text="Device Info",
             font_size="20sp",
@@ -169,7 +174,7 @@ class ConfigScreen(Screen):
             color=(0, 0, 0, 1)
         ))
         device_info_box.add_widget(Label(text="Name: MyDevice", color=(0, 0, 0, 1)))
-        device_info_box.add_widget(Label(text="Serial: 1234567890", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(Label(text=f"Registration Code: {self.code}", color=(0, 0, 0, 1)))
         device_info_box.add_widget(Label(text="Firmware: v1.0.0", color=(0, 0, 0, 1)))
 
         device_info_container.add_widget(device_info_box)
@@ -281,6 +286,9 @@ class WiFiScreen(Screen):
         # Button layout
         button_layout = BoxLayout(size_hint=(1, 0.1), spacing=10)
 
+        # Cancel Button
+        cancel_button = Button(text = "Cancel", on_press=self.on_cancel)
+        button_layout.add_widget(cancel_button)
         # Show/hide password button
         show_pwd = Button(text="Show Password", on_press=self.on_show)
         button_layout.add_widget(show_pwd)
@@ -301,25 +309,31 @@ class WiFiScreen(Screen):
 
     def get_wifi_networks(self):
         """Scans for available Wi-Fi networks."""
-        try:
-            # Run the iwlist command to scan for networks
-            result = subprocess.run(
-                ["sudo", "iwlist", "wlan0", "scan"],
-                capture_output=True,
-                text=True,
-                check=True
-            )
-            # Parse output to extract unique SSIDs
-            networks = set()  # Use a set to avoid duplicates
-            for line in result.stdout.splitlines():
-                if "ESSID" in line:
-                    ssid = line.split(":")[1].strip('"')
-                    if ssid:  # Ignore empty SSIDs
-                        networks.add(ssid)
-            return list(networks) if networks else ["No networks found"]
-        except subprocess.CalledProcessError as e:
-            print(f"Error scanning networks: {e}")
-            return ["Error scanning"]
+        if not debug_mode:
+            try:
+                # Run the iwlist command to scan for networks
+                result = subprocess.run(
+                    ["sudo", "iwlist", "wlan0", "scan"],
+                    capture_output=True,
+                    text=True,
+                    check=True
+                )
+                # Parse output to extract unique SSIDs
+                networks = set()  # Use a set to avoid duplicates
+                for line in result.stdout.splitlines():
+                    if "ESSID" in line:
+                        ssid = line.split(":")[1].strip('"')
+                        if ssid:  # Ignore empty SSIDs
+                            networks.add(ssid)
+                return list(networks) if networks else ["No networks found"]
+            except subprocess.CalledProcessError as e:
+                print(f"Error scanning networks: {e}")
+                return ["Error scanning"]
+        else:
+            return ["Debug mode - scan not available"]
+    
+    def on_cancel(self, instance):
+        self.manager.current = "config_screen"
     def on_show(self, instance):
         """Handle showing/hiding password."""
         # Toggle password masking
