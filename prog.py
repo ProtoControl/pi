@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 import platform
 import subprocess
@@ -37,6 +39,8 @@ if platform.system() == 'Windows':
     debug_mode = True  # Automatically enable debug mode on Windows
 else:
     print("Running on a non-Windows system")
+    print(debug_mode)
+    print(sys.argv)
 
 # If you need RPi GPIO and serial in production:
 if not debug_mode and platform.system() == 'Linux':
@@ -200,7 +204,7 @@ class ConfigScreen(Screen):
             text="Cancel",
             size_hint=(1, None),
             height=50,
-            background_color=(0, 0, 0, 1),
+            #background_color=(0, 0, 0, 1),
             color=(1, 1, 1, 1),
         )
         cancel_button.bind(on_press=self.launch_my_app_screen)
@@ -249,8 +253,6 @@ class ConfigScreen(Screen):
 
 # ---- Screen 2: WiFi Config (old KeyboardApp) ----
 
-
-
 class WiFiScreen(Screen):
     def __init__(self, **kwargs):
         super(WiFiScreen, self).__init__(**kwargs)
@@ -267,7 +269,7 @@ class WiFiScreen(Screen):
         self.network_spinner = Spinner(
             text="Select Network",
             values=self.get_wifi_networks(),  # Dynamically retrieved SSIDs
-            size_hint=(1, 0.2)
+            size_hint=(1, 0.15),
         )
         self.root_layout.add_widget(self.network_spinner)
 
@@ -369,10 +371,10 @@ class WiFiScreen(Screen):
             return
 
         # Container for the keyboard and the hide button
-        self.keyboard_layout = BoxLayout(orientation='vertical', size_hint=(1, 0.5))
+        self.keyboard_layout = BoxLayout(orientation='vertical', size_hint=(1, 0.8))
         
         # Create the VKeyboard
-        self.keyboard = VKeyboard(size_hint=(1, 0.8))
+        self.keyboard = VKeyboard(size_hint=(1, 1.5))
         self.keyboard.bind(on_key_up=self.on_key_up)
         
         # 'Hide Keyboard' button
