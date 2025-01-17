@@ -259,7 +259,7 @@ class WiFiScreen(Screen):
         self.network_spinner = Spinner(
             text="Select Network",
             values=self.get_wifi_networks(),  # Dynamically retrieved SSIDs
-            size_hint=(1, 0.15),
+            size_hint=(1, 0.1),
         )
         self.root_layout.add_widget(self.network_spinner)
 
@@ -364,7 +364,7 @@ class WiFiScreen(Screen):
         self.keyboard_layout = BoxLayout(orientation='vertical', size_hint=(1, 0.8))
         print(self.keyboard_layout.width, self.keyboard_layout.height)
         # Create the VKeyboard
-        self.keyboard = Window.request_keyboard(None, self.keyboard_layout)
+        self.keyboard = Window.request_keyboard(None, self.root_layout)
         #self.keyboard = VKeyboard(size_hint=(1, 1.5))
 
         self.keyboard.bind(on_key_up=self.on_key_up)
@@ -378,12 +378,13 @@ class WiFiScreen(Screen):
         self.keyboard_layout.add_widget(hide_btn)
 
         # Add the keyboard layout to the root layout
-        self.root_layout.add_widget(self.keyboard_layout)
+        #self.root_layout.add_widget(self.keyboard_layout)
 
     def hide_keyboard(self, *args):
         """Remove the keyboard layout from the screen."""
         if self.keyboard_layout:
             self.root_layout.remove_widget(self.keyboard_layout)
+            self.keyboard_layout.remove_widget(self.keyboard)
             self.keyboard_layout = None
             self.keyboard = None
 
