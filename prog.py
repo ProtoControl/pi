@@ -35,7 +35,7 @@ debug_mode = '-d' in sys.argv
 Window.size = (800, 480)
 
 if platform.system() == 'Windows' or platform.system() == 'Darwin':
-    print("Running on Windows")
+    print("Running on Windows or stupid stupid mac")
     debug_mode = True  # Automatically enable debug mode on Windows
 else:
     print("Running on a non-Windows system")
