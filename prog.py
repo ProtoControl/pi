@@ -4,18 +4,17 @@ import sys
 import platform
 import subprocess
 import requests
-import json
-import random
-import string
 
 # Kivy imports
 import kivy
 kivy.require('2.1.0')
+from kivy.config import Config
+Config.set('kivy', 'keyboard_mode', 'dock')
 from kivy.app import App
 from kivy.uix.label import Label
-from kivy.uix.button import Button
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.slider import Slider
+from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -28,8 +27,9 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.vkeyboard import VKeyboard
 from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition
 
-import hashlib
 from code import generate_alphanumeric_code
+
+from PushButton import PushButton
 
 debug_mode = '-d' in sys.argv
 Window.size = (800, 480)
@@ -64,18 +64,6 @@ def hex_to_rgba(hex_color):
     a = int(hex_color[6:8], 16) / 255 if len(hex_color) == 8 else 1
     return (r, g, b, a)
 
-class PushButton(Button):
-    def __init__(self, text, id, color = (1,1,1,1), **kwargs):
-        super(PushButton, self).__init__(**kwargs)
-        self.text = text
-        self.background_color = color
-        self.id = id
-
-    def on_press(self):
-        message = f"{self.id},1"
-        print(message)
-        # if not debug_mode:
-        #     ser.write(message.encode('utf-8'))
 
 class ToggleButtonWidget(ToggleButton):
     def __init__(self,id,text, **kwargs):
@@ -372,9 +360,11 @@ class WiFiScreen(Screen):
 
         # Container for the keyboard and the hide button
         self.keyboard_layout = BoxLayout(orientation='vertical', size_hint=(1, 0.8))
-        
+        print(self.keyboard_layout.width, self.keyboard_layout.height)
         # Create the VKeyboard
-        self.keyboard = VKeyboard(size_hint=(1, 1.5))
+        self.keyboard = Window.request_keyboard(None, self.keyboard_layout)
+        #self.keyboard = VKeyboard(size_hint=(1, 1.5))
+
         self.keyboard.bind(on_key_up=self.on_key_up)
         
         # 'Hide Keyboard' button
@@ -382,7 +372,7 @@ class WiFiScreen(Screen):
         hide_btn.bind(on_press=self.hide_keyboard)
 
         # Add them to the keyboard layout
-        self.keyboard_layout.add_widget(self.keyboard)
+        #self.keyboard_layout.add_widget(self.keyboard)
         self.keyboard_layout.add_widget(hide_btn)
 
         # Add the keyboard layout to the root layout
