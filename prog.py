@@ -10,6 +10,8 @@ import kivy
 kivy.require('2.1.0')
 from kivy.config import Config
 Config.set('kivy', 'keyboard_mode', 'dock')
+# More config settings to explore
+#https://kivy.org/doc/stable/api-kivy.config.html
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.togglebutton import ToggleButton
