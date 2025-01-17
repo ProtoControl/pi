@@ -279,7 +279,7 @@ class WiFiScreen(Screen):
             password=True,
             size_hint=(1, 0.1),
             multiline=False,
-            font_size=30
+            font_size=20
         )
         # Bind focus event so we know when the user clicks/taps the text input
         self.text_input.bind(focus=self.on_text_focus)
