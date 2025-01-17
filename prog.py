@@ -34,7 +34,7 @@ from code import generate_alphanumeric_code
 debug_mode = '-d' in sys.argv
 Window.size = (800, 480)
 
-if platform.system() == 'Windows':
+if platform.system() == 'Windows' or platform.system() == 'Darwin':
     print("Running on Windows")
     debug_mode = True  # Automatically enable debug mode on Windows
 else:
