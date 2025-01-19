@@ -149,7 +149,7 @@ class ConfigScreen(Screen):
     def __init__(self, **kwargs):
         super(ConfigScreen, self).__init__(**kwargs)
         self.name = "config_screen"  # ScreenManager reference name
-
+        
         main_layout = BoxLayout(orientation='horizontal', spacing=10, padding=10)
 
         # LEFT SIDE
@@ -160,7 +160,7 @@ class ConfigScreen(Screen):
         device_info_box = GridLayout(cols=1, spacing=5, size_hint_y=3)
 
         #Code generation
-        self.code = generate_alphanumeric_code()
+        
         device_info_box.add_widget(Label(
             text="Device Info",
             font_size="20sp",
@@ -231,7 +231,7 @@ class ConfigScreen(Screen):
         main_layout.add_widget(right_layout)
 
         self.add_widget(main_layout)
-
+   
     def launch_wifi_screen(self, instance):
         # Switch to the WiFiScreen
         self.manager.current = "wifi_screen"
@@ -412,13 +412,12 @@ class MyAppScreen(Screen):
         """Called automatically when entering the screen."""
         print("MyAppScreen on_enter")
         # Start scheduled tasks if needed:
-        Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
+        
         self.fetch_data_and_build_ui()
 
     def on_leave(self, *args):
         """Called automatically when leaving the screen."""
         print("MyAppScreen on_leave")
-        Clock.unschedule(self.poll_gpio_button)
 
     def fetch_data_and_build_ui(self):
         # Example GET request to fetch layout
@@ -493,6 +492,24 @@ class MyAppScreen(Screen):
             if widget:
                 main_layout.add_widget(widget)
 
+
+
+# ---- The Main App with ScreenManager ----
+class CombinedApp(App):
+
+    def build(self):
+        sm = ScreenManager(transition=FadeTransition())
+        self.polling_interval = 0.01
+        self.code = generate_alphanumeric_code()
+        # Add screens
+        sm.add_widget(ConfigScreen())
+        sm.add_widget(WiFiScreen())
+        sm.add_widget(MyAppScreen())
+
+        sm.current = "myapp_screen"  # Start on config screen
+        Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
+        return sm
+    
     def poll_gpio_button(self, dt):
         """Poll GPIO pin 11 for button press."""
         if not debug_mode and platform.system() == 'Linux':
@@ -505,19 +522,6 @@ class MyAppScreen(Screen):
                 else:
                     self.manager.current = "config_screen"
             time.sleep(0.01)
-
-# ---- The Main App with ScreenManager ----
-class CombinedApp(App):
-    def build(self):
-        sm = ScreenManager(transition=FadeTransition())
-
-        # Add screens
-        sm.add_widget(ConfigScreen())
-        sm.add_widget(WiFiScreen())
-        sm.add_widget(MyAppScreen())
-
-        sm.current = "myapp_screen"  # Start on config screen
-        return sm
 
 if __name__ == '__main__':
     CombinedApp().run()
