@@ -523,17 +523,17 @@ class MyAppScreen(Screen):
 class CombinedApp(App):
 
     def build(self):
-        sm = ScreenManager(transition=FadeTransition())
+        self.sm = ScreenManager(transition=FadeTransition())
         self.polling_interval = 0.01
         
         # Add screens
-        sm.add_widget(ConfigScreen())
-        sm.add_widget(WiFiScreen())
-        sm.add_widget(MyAppScreen())
+        self.sm.add_widget(ConfigScreen())
+        self.sm.add_widget(WiFiScreen())
+        self.sm.add_widget(MyAppScreen())
         ConfigScreen.fetch_layout()
-        sm.current = "myapp_screen"  # Start on config screen
+        self.sm.current = "myapp_screen"  # Start on config screen
         Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
-        return sm
+        return self.sm
     
     def poll_gpio_button(self, dt):
         """Poll GPIO pin 11 for button press."""
