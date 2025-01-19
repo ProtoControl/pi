@@ -542,10 +542,10 @@ class CombinedApp(App):
                 print("Button was pushed!")
                 # For example, fetch new data and rebuild
                 #self.fetch_data_and_build_ui()
-                if self.manager.current == "config_screen":
-                    self.manager.current = "myapp_screen"
+                if self.sm.current == "config_screen":
+                    self.sm.current = "myapp_screen"
                 else:
-                    self.manager.current = "config_screen"
+                    self.sm.current = "config_screen"
             time.sleep(0.01)
 
 if __name__ == '__main__':
