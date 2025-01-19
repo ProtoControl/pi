@@ -35,7 +35,7 @@ from PushButton import PushButton
 
 debug_mode = '-d' in sys.argv
 Window.size = (800, 480)
-
+code = generate_alphanumeric_code()
 if platform.system() == 'Windows' or platform.system() == 'Darwin':
     print("Running on Windows or stupid stupid mac")
     debug_mode = True  # Automatically enable debug mode on Windows
@@ -168,7 +168,7 @@ class ConfigScreen(Screen):
             color=(0, 0, 0, 1)
         ))
         device_info_box.add_widget(Label(text="Name: MyDevice", color=(0, 0, 0, 1)))
-        device_info_box.add_widget(Label(text=f"Registration Code: {self.code}", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(Label(text=f"Registration Code: {code}", color=(0, 0, 0, 1)))
         device_info_box.add_widget(Label(text="Firmware: v1.0.0", color=(0, 0, 0, 1)))
 
         device_info_container.add_widget(device_info_box)
@@ -500,7 +500,7 @@ class CombinedApp(App):
     def build(self):
         sm = ScreenManager(transition=FadeTransition())
         self.polling_interval = 0.01
-        self.code = generate_alphanumeric_code()
+        
         # Add screens
         sm.add_widget(ConfigScreen())
         sm.add_widget(WiFiScreen())
