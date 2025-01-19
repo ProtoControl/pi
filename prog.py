@@ -187,7 +187,7 @@ class ConfigScreen(Screen):
             size_hint=(1,None),
             height = 50
         )
-        layout_button.bind(on_press=self.fetch_layout)
+        layout_button.bind(on_press=self.fetch_button)
         buttons_layout.add_widget(layout_button)
 
         wifi_button = Button(
@@ -249,6 +249,8 @@ class ConfigScreen(Screen):
     def launch_my_app_screen(self, instance):
         # Switch to the MyAppScreen
         self.manager.current = "myapp_screen"
+    def fetch_button(self, instance):
+        self.__class__.fetch_layout()
     @classmethod
     def fetch_layout(self):
         # Example GET request to fetch layout
@@ -531,7 +533,7 @@ class CombinedApp(App):
         self.sm.add_widget(WiFiScreen())
         self.sm.add_widget(MyAppScreen())
         ConfigScreen.fetch_layout()
-        self.sm.current = "myapp_screen"  # Start on config screen
+        self.sm.current = "config_screen"  # Start on config screen
         Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
         return self.sm
     
