@@ -4,7 +4,7 @@ import sys
 import platform
 import subprocess
 import requests
-
+import time
 # Kivy imports
 import kivy
 kivy.require('2.1.0')
@@ -504,6 +504,7 @@ class MyAppScreen(Screen):
                     self.manager.current = "myapp_screen"
                 else:
                     self.manager.current = "config_screen"
+            time.sleep(0.01)
 
 # ---- The Main App with ScreenManager ----
 class CombinedApp(App):
@@ -515,7 +516,7 @@ class CombinedApp(App):
         sm.add_widget(WiFiScreen())
         sm.add_widget(MyAppScreen())
 
-        sm.current = "config_screen"  # Start on config screen
+        sm.current = "myapp_screen"  # Start on config screen
         return sm
 
 if __name__ == '__main__':
