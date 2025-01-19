@@ -5,6 +5,7 @@ import platform
 import subprocess
 import requests
 import time
+import json
 # Kivy imports
 import kivy
 kivy.require('2.1.0')
@@ -36,6 +37,7 @@ from PushButton import PushButton
 debug_mode = '-d' in sys.argv
 Window.size = (800, 480)
 code = generate_alphanumeric_code()
+data = None
 if platform.system() == 'Windows' or platform.system() == 'Darwin':
     print("Running on Windows or stupid stupid mac")
     debug_mode = True  # Automatically enable debug mode on Windows
@@ -180,6 +182,14 @@ class ConfigScreen(Screen):
         # Buttons
         buttons_layout = BoxLayout(orientation='vertical', spacing=10, size_hint=(1, None))
 
+        layout_button = Button(
+            text="Fetch Layout",
+            size_hint=(1,None),
+            height = 50
+        )
+        layout_button.bind(on_press=self.fetch_layout)
+        buttons_layout.add_widget(layout_button)
+
         wifi_button = Button(
             text="Connect to Wi-Fi",
             size_hint=(1, None),
@@ -239,6 +249,27 @@ class ConfigScreen(Screen):
     def launch_my_app_screen(self, instance):
         # Switch to the MyAppScreen
         self.manager.current = "myapp_screen"
+    @classmethod
+    def fetch_layout(self):
+        # Example GET request to fetch layout
+        url = "https://protocontrol.dev/api/get-most-recent-layout"
+        #self.main_layout.clear_widgets()
+
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            data = response.json()
+            print(data)
+            
+            with open("layout.txt","w") as save:
+                print("writing")
+                json.dump(data, save, indent=4)
+                #save.write(str(data).replace("'","\""))
+            # Build dynamic components
+            #self.create_components(data, self.main_layout)
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred: {e}")
+    
 
 
 # ---- Screen 2: WiFi Config (old KeyboardApp) ----
@@ -412,27 +443,21 @@ class MyAppScreen(Screen):
         """Called automatically when entering the screen."""
         print("MyAppScreen on_enter")
         # Start scheduled tasks if needed:
-        
-        self.fetch_data_and_build_ui()
+        self.build_ui()
 
     def on_leave(self, *args):
         """Called automatically when leaving the screen."""
         print("MyAppScreen on_leave")
 
-    def fetch_data_and_build_ui(self):
-        # Example GET request to fetch layout
-        url = "https://protocontrol.dev/api/get-most-recent-layout"
-        self.main_layout.clear_widgets()
-
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-            data = response.json()
+    def build_ui(self):
+        
+        with open("layout.txt","r") as save:
+            data = save.read()
             print(data)
-            # Build dynamic components
-            self.create_components(data, self.main_layout)
-        except requests.exceptions.RequestException as e:
-            print(f"An error occurred: {e}")
+            data = json.loads(data)
+            
+        self.create_components(data, self.main_layout)
+        
 
     @classmethod
     def create_components(cls, input_data, main_layout, grid_width=12, grid_height=7):
@@ -505,7 +530,7 @@ class CombinedApp(App):
         sm.add_widget(ConfigScreen())
         sm.add_widget(WiFiScreen())
         sm.add_widget(MyAppScreen())
-
+        ConfigScreen.fetch_layout()
         sm.current = "myapp_screen"  # Start on config screen
         Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
         return sm
