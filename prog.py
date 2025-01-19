@@ -357,25 +357,26 @@ class WiFiScreen(Screen):
     def show_keyboard(self):
         """Create and show the docked VKeyboard with a Hide button."""
         # If keyboard is already shown, do nothing
-        if self.keyboard_layout:
+        if self.keyboard:
             return
 
         # Container for the keyboard and the hide button
-        self.keyboard_layout = BoxLayout(orientation='vertical', size_hint=(1, 0.8))
-        print(self.keyboard_layout.width, self.keyboard_layout.height)
+        # self.keyboard_layout = BoxLayout(orientation='vertical', size_hint=(1, 0.8))
+        # print(self.keyboard_layout.width, self.keyboard_layout.height)
         # Create the VKeyboard
+        self.text_input.focused = True
         self.keyboard = Window.request_keyboard(None, self.root_layout)
         #self.keyboard = VKeyboard(size_hint=(1, 1.5))
 
         self.keyboard.bind(on_key_up=self.on_key_up)
         
         # 'Hide Keyboard' button
-        hide_btn = Button(text="Hide Keyboard", size_hint=(1, 0.2))
-        hide_btn.bind(on_press=self.hide_keyboard)
+        # hide_btn = Button(text="Hide Keyboard", size_hint=(1, 0.2))
+        # hide_btn.bind(on_press=self.hide_keyboard)
 
         # Add them to the keyboard layout
         #self.keyboard_layout.add_widget(self.keyboard)
-        self.keyboard_layout.add_widget(hide_btn)
+        #self.keyboard_layout.add_widget(hide_btn)
 
         # Add the keyboard layout to the root layout
         #self.root_layout.add_widget(self.keyboard_layout)
@@ -498,7 +499,11 @@ class MyAppScreen(Screen):
             if GPIO.input(11) == GPIO.HIGH:
                 print("Button was pushed!")
                 # For example, fetch new data and rebuild
-                self.fetch_data_and_build_ui()
+                #self.fetch_data_and_build_ui()
+                if self.manager.current == "config_screen":
+                    self.manager.current = "myapp_screen"
+                else:
+                    self.manager.current = "config_screen"
 
 # ---- The Main App with ScreenManager ----
 class CombinedApp(App):
