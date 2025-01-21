@@ -9,8 +9,8 @@ from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle
 
 
-from prog import MyApp
-from wifi import KeyboardApp
+from archive.prog import MyApp
+from archive.wifi import KeyboardApp
 keyboard_app = KeyboardApp()
 my_app = MyApp()
 # Style settings
