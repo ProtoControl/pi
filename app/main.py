@@ -14,8 +14,7 @@ import time
 platform_utils = PlatformUtils()
 debug_mode = platform_utils.debug_mode
 
-if not debug_mode:
-    from RPi import GPIO
+platform_utils.setup_platform_specifics()
 
 class CombinedApp(App):
 
