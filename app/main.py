@@ -9,10 +9,14 @@ from kivy.clock import Clock
 import platform
 from utils.platform_utils import PlatformUtils
 import time
-from RPi import GPIO
+
 
 platform_utils = PlatformUtils()
 debug_mode = platform_utils.debug_mode
+
+if not debug_mode:
+    from RPi import GPIO
+
 class CombinedApp(App):
 
     def build(self):
