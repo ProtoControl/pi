@@ -32,7 +32,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager, FadeTransition
 
 from code import generate_alphanumeric_code
 
-from PushButton import PushButton
+from app.widgets.pushbuttton_widget import PushButton
 
 debug_mode = '-d' in sys.argv
 Window.size = (800, 480)
