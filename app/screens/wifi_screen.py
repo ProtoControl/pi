@@ -5,6 +5,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 import subprocess
 from utils.platform_utils import PlatformUtils
+from kivy.core.window import Window
 
 platform_utils = PlatformUtils()
 debug_mode = platform_utils.debug_mode

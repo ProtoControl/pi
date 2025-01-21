@@ -1,3 +1,5 @@
+from kivy.config import Config
+Config.set('kivy', 'keyboard_mode', 'dock')
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from screens.config_screen import ConfigScreen
