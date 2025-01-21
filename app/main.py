@@ -9,6 +9,7 @@ from kivy.clock import Clock
 import platform
 from utils.platform_utils import PlatformUtils
 import time
+from RPi import GPIO
 
 platform_utils = PlatformUtils()
 debug_mode = platform_utils.debug_mode
