@@ -1,7 +1,9 @@
 import sys
 import platform
 import hashlib
-
+import requests
+import json
+from config_screen import code
 
 class PlatformUtils:
     def __init__(self):
@@ -60,3 +62,5 @@ class PlatformUtils:
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BOARD)
             GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+   
+    
