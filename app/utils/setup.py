@@ -68,7 +68,7 @@ deviceName = None
 devType = "ProtoType"
 version = "BETA"
 payload = {
-    "serialNumber":
+    "serialNumber": serialNumber,
     "registrationId": registrationId,
     "User":User,
     "deviceStatus": deviceStatus,
