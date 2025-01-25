@@ -21,6 +21,13 @@ Sends device data to the given URL via an HTTP PUT request.
 :param assembledOn: Timestamp when the device was assembled
 """
 
+
+
+
+url = ""
+
+
+
 registrationId = generate_alphanumeric_code()
 User = None
 deviceStatus = "built"
