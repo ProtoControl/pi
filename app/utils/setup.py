@@ -2,8 +2,21 @@
 
 
 import requests
+import sys
 
-from platform_utils import generate_alphanumeric_code
+import kivy
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+
+
+import hashlib
+
+import time
+import secrets
+import string
 
 
 """
@@ -21,9 +34,39 @@ Sends device data to the given URL via an HTTP PUT request.
 :param assembledOn: Timestamp when the device was assembled
 """
 
-import time
-import secrets
-import string
+
+def generate_alphanumeric_code(length=8):
+        """
+        Generate an alphanumeric code based on the Raspberry Pi's hardware ID.
+
+        Args:
+            length (int): Length of the alphanumeric code. Default is 8 characters.
+
+        Returns:
+            str: An alphanumeric code unique to the device.
+        """
+        try:
+            # Read the hardware ID from /proc/cpuinfo
+            with open("/proc/cpuinfo", "r") as f:
+                for line in f:
+                    if line.startswith("Serial"):
+                        hardware_id = line.strip().split(":")[1].strip()
+                        break
+                else:
+                    raise ValueError("Hardware ID not found in /proc/cpuinfo")
+            print(hardware_id)
+            # Hash the hardware ID to ensure uniqueness
+            hash_obj = hashlib.sha256(hardware_id.encode())
+            hashed_value = hash_obj.hexdigest()
+            
+            # Generate an alphanumeric code of the specified length
+            alphanumeric_code = hashed_value[:length].upper()  # Use uppercase for consistency
+            return alphanumeric_code
+
+        except Exception as e:
+            print(f"Error generating alphanumeric code: {e}")
+            return None
+
 
 def generate_serial_number(prefix: str = "DEV", random_length: int = 6) -> str:
     """
@@ -57,25 +100,119 @@ def generate_serial_number(prefix: str = "DEV", random_length: int = 6) -> str:
 
 
 
-url = ""
+
+class MyWidget(BoxLayout):
+    def __init__(self, **kwargs):
+        super(MyWidget, self).__init__(**kwargs)
+        self.orientation = "vertical"
+
+        # Default variable values
+        self.user_var = None
+        self.deviceStatus_var = "built"
+        self.deviceName_var = None
+        self.devType_var = "ProtoType"
+        self.version_var = "BETA"
+
+        # 1) User
+        row_user = BoxLayout(orientation="horizontal")
+        row_user.add_widget(Label(text="User:"))
+        self.user_input = TextInput(
+            text="" if self.user_var is None else str(self.user_var),
+            multiline=False
+        )
+        row_user.add_widget(self.user_input)
+        self.add_widget(row_user)
+
+        # 2) deviceStatus
+        row_deviceStatus = BoxLayout(orientation="horizontal")
+        row_deviceStatus.add_widget(Label(text="deviceStatus:"))
+        self.deviceStatus_input = TextInput(
+            text=self.deviceStatus_var,
+            multiline=False
+        )
+        row_deviceStatus.add_widget(self.deviceStatus_input)
+        self.add_widget(row_deviceStatus)
+
+        # 3) deviceName
+        row_deviceName = BoxLayout(orientation="horizontal")
+        row_deviceName.add_widget(Label(text="deviceName:"))
+        self.deviceName_input = TextInput(
+            text="" if self.deviceName_var is None else str(self.deviceName_var),
+            multiline=False
+        )
+        row_deviceName.add_widget(self.deviceName_input)
+        self.add_widget(row_deviceName)
+
+        # 4) devType
+        row_devType = BoxLayout(orientation="horizontal")
+        row_devType.add_widget(Label(text="devType:"))
+        self.devType_input = TextInput(
+            text=self.devType_var,
+            multiline=False
+        )
+        row_devType.add_widget(self.devType_input)
+        self.add_widget(row_devType)
+
+        # 5) version
+        row_version = BoxLayout(orientation="horizontal")
+        row_version.add_widget(Label(text="version:"))
+        self.version_input = TextInput(
+            text=self.version_var,
+            multiline=False
+        )
+        row_version.add_widget(self.version_input)
+        self.add_widget(row_version)
+
+        # "Send" button
+        send_button = Button(text="Send")
+        send_button.bind(on_press=self.send_values_to_console)
+        self.add_widget(send_button)
+
+    def send_values_to_console(self, instance):
+        # Read updated values
+        self.user_var = self.user_input.text if self.user_input.text else None
+        self.deviceStatus_var = self.deviceStatus_input.text
+        self.deviceName_var = self.deviceName_input.text if self.deviceName_input.text else None
+        self.devType_var = self.devType_input.text
+        self.version_var = self.version_input.text
+
+        # Print to console
+        print(f"User: {self.user_var}")
+        print(f"deviceStatus: {self.deviceStatus_var}")
+        print(f"deviceName: {self.deviceName_var}")
+        print(f"devType: {self.devType_var}")
+        print(f"version: {self.version_var}")
+
+        url = "https://protocontrol.dev/api/setup-device"
+
+        serialNumber = generate_serial_number(prefix="TEST")
+        registrationId = generate_alphanumeric_code()
+        User = None
+        deviceStatus = "built"
+        deviceName = None
+        devType = "ProtoType"
+        version = "BETA"
 
 
-serialNumber = generate_serial_number(prefix="TEST")
-registrationId = generate_alphanumeric_code()
-User = None
-deviceStatus = "built"
-deviceName = None
-devType = "ProtoType"
-version = "BETA"
-payload = {
-    "serialNumber": serialNumber,
-    "registrationId": registrationId,
-    "User":User,
-    "deviceStatus": deviceStatus,
-    "deviceName":deviceName,
-    "devType": devType,
-    "version": version
-}
+        payload = {
+            "serialNumber": serialNumber,
+            "registrationId": registrationId,
+            "User":User,
+            "deviceStatus": deviceStatus,
+            "deviceName":deviceName,
+            "devType": devType,
+            "version": version
+        }
+        
+        response = requests.put(url, json=payload)
+        print(response)
 
-response = requests.put(url, json=payload)
-print(response)
+class MyApp(App):
+    def build(self):
+        return MyWidget()
+
+if __name__ == "__main__":
+    MyApp().run()
+
+
+        
