@@ -10,6 +10,9 @@ from kivy.core.window import Window
 platform_utils = PlatformUtils()
 debug_mode = platform_utils.debug_mode
 
+
+
+##edits made by KM 
 class WiFiScreen(Screen):
     def __init__(self, **kwargs):
         super(WiFiScreen, self).__init__(**kwargs)
