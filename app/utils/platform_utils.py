@@ -3,7 +3,7 @@ import platform
 import hashlib
 import requests
 import json
-from config_screen import code
+#from config_screen import code
 
 class PlatformUtils:
     def __init__(self):
