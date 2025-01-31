@@ -27,6 +27,7 @@ class WiFiScreen(Screen):
             text="Select Network",
             values=self.get_wifi_networks(),  # Dynamically retrieved SSIDs
             size_hint=(1, 0.1),
+            background_color = (2,0,0,1)
         )
         self.root_layout.add_widget(self.network_spinner)
 
