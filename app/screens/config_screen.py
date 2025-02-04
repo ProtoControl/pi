@@ -129,7 +129,7 @@ class ConfigScreen(Screen):
             data = response.json()
             print(data)
             
-            with open("layout.txt","w") as save:
+            with open("layout.json","w") as save:
                 print("writing")
                 json.dump(data, save, indent=4)
                 #save.write(str(data).replace("'","\""))
@@ -137,4 +137,4 @@ class ConfigScreen(Screen):
             #self.create_components(data, self.main_layout)
         except requests.exceptions.RequestException as e:
             print(f"An error occurred: {e}")
-    
+

@@ -17,7 +17,7 @@ import hashlib
 import time
 import secrets
 import string
-
+import json
 
 """
 Sends device data to the given URL via an HTTP PUT request.
@@ -171,10 +171,10 @@ class MyWidget(BoxLayout):
     def send_values_to_console(self, instance):
         # Read updated values
         self.user_var = self.user_input.text if self.user_input.text else None
-        self.deviceStatus_var = self.deviceStatus_input.text
+        self.deviceStatus_var = self.deviceStatus_input.text if self.deviceStatus_input else "Built"
         self.deviceName_var = self.deviceName_input.text if self.deviceName_input.text else None
-        self.devType_var = self.devType_input.text
-        self.version_var = self.version_input.text
+        self.devType_var = self.devType_input.text if self.devType_input.text else "ProtoType"
+        self.version_var = self.version_input.text if self.version_input.text else "BETA01"
 
         # Print to console
         print(f"User: {self.user_var}")
@@ -187,11 +187,11 @@ class MyWidget(BoxLayout):
 
         serialNumber = generate_serial_number(prefix="TEST")
         registrationId = generate_alphanumeric_code()
-        User = None
-        deviceStatus = "built"
-        deviceName = None
-        devType = "ProtoType"
-        version = "BETA"
+        User = self.user_var
+        deviceStatus = self.deviceStatus_var
+        deviceName = self.deviceName_var
+        devType = self.devType_var
+        version = self.version_var
 
 
         payload = {
@@ -204,8 +204,13 @@ class MyWidget(BoxLayout):
             "version": version
         }
         
-        response = requests.put(url, json=payload)
-        print(response)
+        #response = requests.put(url, json=payload)
+        
+        with open("settings.json", "w") as save_file:
+            json.dump(payload, save_file, indent=4)
+
+        print("Payload written to settings.txt:")
+        print(payload)
 
 class MyApp(App):
     def build(self):
