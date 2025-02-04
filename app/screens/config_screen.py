@@ -129,7 +129,7 @@ class ConfigScreen(Screen):
             data = response.json()
             print(data)
             
-            with open("layout.json","w") as save:
+            with open("pi/layout.json","w") as save:
                 print("writing")
                 json.dump(data, save, indent=4)
                 #save.write(str(data).replace("'","\""))
