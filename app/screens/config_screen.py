@@ -35,9 +35,18 @@ class ConfigScreen(Screen):
             bold=True,
             color=(0, 0, 0, 1)
         ))
+
+        with open("pi/settings.json","r") as save:
+            data = save.read()
+            data = json.loads(data)
         device_info_box.add_widget(Label(text="Name: MyDevice", color=(0, 0, 0, 1)))
-        device_info_box.add_widget(Label(text=f"Registration Code: {code}", color=(0, 0, 0, 1)))
-        device_info_box.add_widget(Label(text="Firmware: v1.0.0", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(Label(text=f"Registration Code: {data['registrationId']}", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(Label(text = "Serial Number:",color=(0,0,0,1)))
+        device_info_box.add_widget(Label(text = f"{data['serialNumber']}",color=(0,0,0,1)))
+        device_info_box.add_widget(Label(text=f"Firmware: {data['version']}", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(Label(text=f"Status: {data['deviceStatus']}", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(Label(text=f"User: {data['User']}", color=(0, 0, 0, 1)))
+
 
         device_info_container.add_widget(device_info_box)
         left_layout.add_widget(device_info_container)

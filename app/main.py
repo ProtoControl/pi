@@ -9,7 +9,9 @@ from kivy.clock import Clock
 import platform
 from utils.platform_utils import PlatformUtils
 import time
+from kivy.core.window import Window
 
+Window.size = (800, 480)
 
 platform_utils = PlatformUtils()
 debug_mode = platform_utils.debug_mode

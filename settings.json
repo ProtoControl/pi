@@ -1,9 +1,9 @@
 {
-    "serialNumber": "TEST-250203203701-XTQ5Y0",
+    "serialNumber": "TEST-250203205349-BJFO2P",
     "registrationId": null,
-    "User": "pi/",
-    "deviceStatus": "built",
-    "deviceName": null,
+    "User": "noUser\t\t",
+    "deviceStatus": "built-test",
+    "deviceName": "debug",
     "devType": "ProtoType",
     "version": "BETA"
 }
