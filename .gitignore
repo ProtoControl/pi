@@ -4,3 +4,5 @@
 # Ignore Python bytecode files
 *.pyc
 __pycache__/
+app/screens/__pycache__/app_screen.cpython-311.pyc
+app/screens/__pycache__/config_screen.cpython-311.pyc

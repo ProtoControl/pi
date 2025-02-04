@@ -36,7 +36,7 @@ class ConfigScreen(Screen):
             color=(0, 0, 0, 1)
         ))
 
-        with open("pi/settings.json","r") as save:
+        with open("settings.json","r") as save:
             data = save.read()
             data = json.loads(data)
         device_info_box.add_widget(Label(text="Name: MyDevice", color=(0, 0, 0, 1)))
@@ -138,7 +138,7 @@ class ConfigScreen(Screen):
             data = response.json()
             print(data)
             
-            with open("pi/layout.json","w") as save:
+            with open("layout.json","w") as save:
                 print("writing")
                 json.dump(data, save, indent=4)
                 #save.write(str(data).replace("'","\""))

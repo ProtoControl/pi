@@ -206,7 +206,7 @@ class MyWidget(BoxLayout):
         
         #response = requests.put(url, json=payload)
         
-        with open("pi/settings.json", "w") as save_file:
+        with open("settings.json", "w") as save_file:
             json.dump(payload, save_file, indent=4)
 
         print("Payload written to settings.txt:")

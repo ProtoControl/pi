@@ -31,7 +31,7 @@ class MyAppScreen(Screen):
 
     def build_ui(self):
         
-        with open("pi/layout.json","r") as save:
+        with open("layout.json","r") as save:
             data = save.read()
             print(data)
             data = json.loads(data)
