@@ -36,6 +36,12 @@ class CombinedApp(App):
     def poll_gpio_button(self, dt):
         """Poll GPIO pin 11 for button press."""
         if not debug_mode and platform.system() == 'Linux':
+            import serial
+            import RPi.GPIO as GPIO
+            GPIO.setwarnings(False)
+            GPIO.setmode(GPIO.BOARD)
+            GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+   
             if GPIO.input(11) == GPIO.HIGH:
                 print("Button was pushed!")
                 # For example, fetch new data and rebuild

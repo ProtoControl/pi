@@ -108,10 +108,10 @@ class MyWidget(BoxLayout):
 
         # Default variable values
         self.user_var = None
-        self.deviceStatus_var = "built"
+        self.deviceStatus_var = "pending"
         self.deviceName_var = None
         self.devType_var = "ProtoType"
-        self.version_var = "BETA"
+        self.version_var = "0.1.0"
 
         # 1) User
         row_user = BoxLayout(orientation="horizontal")
@@ -174,7 +174,7 @@ class MyWidget(BoxLayout):
         self.deviceStatus_var = self.deviceStatus_input.text if self.deviceStatus_input else "pending"
         self.deviceName_var = self.deviceName_input.text if self.deviceName_input.text else None
         self.devType_var = self.devType_input.text if self.devType_input.text else "ProtoType"
-        self.version_var = self.version_input.text if self.version_input.text else "BETA01"
+        self.version_var = self.version_input.text if self.version_input.text else "0.1.0"
 
         # Print to console
         print(f"User: {self.user_var}")
@@ -192,7 +192,7 @@ class MyWidget(BoxLayout):
         
         devType = self.devType_var
         version = self.version_var
-
+        registrationId = "123333"
 
         payload = {
             "devType": devType,
@@ -202,7 +202,7 @@ class MyWidget(BoxLayout):
             "version": version
         }
         
-        response = requests.post(url, json=json.dumps(payload, indent=4))
+        response = requests.post(url, json=payload)
         print(response)
         with open("settings.json", "w") as save_file:
             json.dump(payload, save_file, indent=4)

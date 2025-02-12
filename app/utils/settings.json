@@ -1,7 +1,7 @@
 {
     "devType": "ProtoType",
-    "deviceStatus": "built",
-    "registrationId": null,
-    "serialNumber": "TEST-250212114238-X286J9",
-    "version": "werd"
+    "deviceStatus": "pending",
+    "registrationId": "123333",
+    "serialNumber": "TEST-250212120553-3M78D8",
+    "version": "0.1.0"
 }
