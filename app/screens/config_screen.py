@@ -129,7 +129,7 @@ class ConfigScreen(Screen):
     @classmethod
     def fetch_layout(self):
         # Example GET request to fetch layout
-        url = "https://protocontrol.dev/api/get-most-recent-layout"
+        url = "https://protocontrol.dev/builder/get-most-recent-layout"
         #self.main_layout.clear_widgets()
 
         try:

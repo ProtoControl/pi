@@ -183,7 +183,7 @@ class MyWidget(BoxLayout):
         print(f"devType: {self.devType_var}")
         print(f"version: {self.version_var}")
 
-        url = "https://protocontrol.dev/api/setup-device"
+        url = "https://protocontrol.dev/users/initialize-device"
 
         serialNumber = generate_serial_number(prefix="TEST")
         registrationId = generate_alphanumeric_code()
@@ -204,7 +204,7 @@ class MyWidget(BoxLayout):
             "version": version
         }
         
-        #response = requests.put(url, json=payload)
+        response = requests.put(url, json=payload)
         
         with open("settings.json", "w") as save_file:
             json.dump(payload, save_file, indent=4)
