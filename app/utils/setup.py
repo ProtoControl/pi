@@ -18,7 +18,7 @@ import time
 import secrets
 import string
 import json
-
+headers = {'Content-type': 'application/json'}
 """
 Sends device data to the given URL via an HTTP PUT request.
 
@@ -183,7 +183,7 @@ class MyWidget(BoxLayout):
         print(f"devType: {self.devType_var}")
         print(f"version: {self.version_var}")
 
-        url = "https://protocontrol.dev/users/initialize-device"
+        url = "http://127.0.0.1:5000/users/initialize-device"#https://protocontrol.dev/users/initialize-device"
 
         serialNumber = generate_serial_number(prefix="TEST")
         registrationId = generate_alphanumeric_code()
@@ -202,7 +202,7 @@ class MyWidget(BoxLayout):
             "version": version
         }
         
-        response = requests.post(url, json=payload)
+        response = requests.post(url, json=payload,headers=headers)
         print(response)
         with open("settings.json", "w") as save_file:
             json.dump(payload, save_file, indent=4)
