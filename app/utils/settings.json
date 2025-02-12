@@ -1,9 +1,7 @@
 {
-    "serialNumber": "TEST-250212104233-880LS0",
-    "registrationId": null,
-    "User": "parker",
-    "deviceStatus": "built",
-    "deviceName": "DELETEME",
     "devType": "ProtoType",
+    "deviceStatus": "built",
+    "registrationId": null,
+    "serialNumber": "TEST-250212113144-NNMPTL",
     "version": "BETA"
 }

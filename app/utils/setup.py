@@ -171,7 +171,7 @@ class MyWidget(BoxLayout):
     def send_values_to_console(self, instance):
         # Read updated values
         self.user_var = self.user_input.text if self.user_input.text else None
-        self.deviceStatus_var = self.deviceStatus_input.text if self.deviceStatus_input else "Built"
+        self.deviceStatus_var = self.deviceStatus_input.text if self.deviceStatus_input else "pending"
         self.deviceName_var = self.deviceName_input.text if self.deviceName_input.text else None
         self.devType_var = self.devType_input.text if self.devType_input.text else "ProtoType"
         self.version_var = self.version_input.text if self.version_input.text else "BETA01"
@@ -187,30 +187,28 @@ class MyWidget(BoxLayout):
 
         serialNumber = generate_serial_number(prefix="TEST")
         registrationId = generate_alphanumeric_code()
-        User = self.user_var
+        
         deviceStatus = self.deviceStatus_var
-        deviceName = self.deviceName_var
+        
         devType = self.devType_var
         version = self.version_var
 
 
         payload = {
-            "serialNumber": serialNumber,
-            "registrationId": registrationId,
-            "User":User,
-            "deviceStatus": deviceStatus,
-            "deviceName":deviceName,
             "devType": devType,
+            "deviceStatus": deviceStatus,
+            "registrationId": registrationId,
+            "serialNumber": serialNumber,
             "version": version
         }
         
-        response = requests.put(url, json=payload)
-        
+        response = requests.put(url, json=json.dumps(payload, indent=4))
+        print(response)
         with open("settings.json", "w") as save_file:
             json.dump(payload, save_file, indent=4)
 
         print("Payload written to settings.txt:")
-        print(payload)
+        print(json.dumps(payload, indent=4))
 
 class MyApp(App):
     def build(self):
