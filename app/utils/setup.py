@@ -202,7 +202,7 @@ class MyWidget(BoxLayout):
             "version": version
         }
         
-        response = requests.put(url, json=json.dumps(payload, indent=4))
+        response = requests.post(url, json=json.dumps(payload, indent=4))
         print(response)
         with open("settings.json", "w") as save_file:
             json.dump(payload, save_file, indent=4)
