@@ -10,7 +10,7 @@ import requests
 from utils.graybox import GrayBox
 from kivymd.uix.gridlayout import GridLayout
 from utils.platform_utils import PlatformUtils
-
+import os
 platform_utils = PlatformUtils()
 code = platform_utils.generate_alphanumeric_code()
 
@@ -37,8 +37,9 @@ class ConfigScreen(MDScreen):
             bold=True,
             color=(0, 0, 0, 1)
         ))
-
-        with open("settings.json","r") as save:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        settings_path = os.path.join(script_dir, "../settings.json")
+        with open(settings_path,"r") as save:
             data = save.read()
             data = json.loads(data)
         device_info_box.add_widget(MDLabel(text="Name: MyDevice", color=(0, 0, 0, 1)))

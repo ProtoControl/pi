@@ -1,7 +1,7 @@
 from kivy.config import Config
 Config.set('kivy', 'keyboard_mode', 'dock')
 from kivymd.app import MDApp
-from kivy.uix.screenmanager import ScreenManager, FadeTransition
+from kivymd.uix.screenmanager import MDScreenManager
 from screens.config_screen import ConfigScreen
 from screens.wifi_screen import WiFiScreen
 from screens.app_screen import MyAppScreen
@@ -21,7 +21,7 @@ platform_utils.setup_platform_specifics()
 class CombinedApp(MDApp):
 
     def build(self):
-        self.sm = ScreenManager(transition=FadeTransition())
+        self.sm = MDScreenManager()
         self.polling_interval = 0.01
         #self.theme_cls.theme_style = "Dark"
         #self.theme_cls.primary_palette = "Olive"  # "Purple", "Red"

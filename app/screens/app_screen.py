@@ -10,6 +10,7 @@ from widgets.slider_widget import SliderWidget
 from widgets.toggle_widget import ToggleButtonWidget
 from utils.helpers import hex_to_rgba
 
+from kivymd.uix.button import button
 class MyAppScreen(MDScreen):
     def __init__(self, **kwargs):
         super(MyAppScreen, self).__init__(**kwargs)
