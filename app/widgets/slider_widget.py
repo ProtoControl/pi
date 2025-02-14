@@ -1,5 +1,5 @@
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.slider import MDSlider
+from kivymd.uix.slider import MDSlider, MDSliderHandle, MDSliderValueLabel
 from kivymd.uix.label import MDLabel
 
 
@@ -8,7 +8,12 @@ class SliderWidget(MDBoxLayout):
         super(SliderWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
 
-        self.slider = MDSlider(min=min, max=max, value=min)
+        self.slider = MDSlider(
+            MDSliderHandle(),
+            MDSliderValueLabel(text=kwargs.get('label', "")),
+            min=min,
+            max=max,
+            value=min)
         self.slider.orientation = 'horizontal'
         self.slider.value_track = True
         self.slider.value_track_color = [1, 0, 0, 1]
@@ -17,10 +22,10 @@ class SliderWidget(MDBoxLayout):
         self.slider.max = max
         self.slider.id = id
 
-        self.value_label = MDLabel(text=f"{text}", size_hint=(1, 0.2), font_size='40sp')
-        self.slider.bind(value=self.on_value_change)
+        #self.value_label = MDLabel(text=f"{text}", size_hint=(1, 0.2), font_size='40sp')
+        #self.slider.bind(value=self.on_value_change)
 
-        self.add_widget(self.value_label)
+        #self.add_widget(self.value_label)
         self.add_widget(self.slider)
 
     def on_value_change(self, instance, value):

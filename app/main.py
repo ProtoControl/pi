@@ -23,7 +23,8 @@ class CombinedApp(MDApp):
     def build(self):
         self.sm = ScreenManager(transition=FadeTransition())
         self.polling_interval = 0.01
-        
+        #self.theme_cls.theme_style = "Dark"
+        #self.theme_cls.primary_palette = "Olive"  # "Purple", "Red"
         # Add screens
         self.sm.add_widget(ConfigScreen())
         self.sm.add_widget(WiFiScreen())
