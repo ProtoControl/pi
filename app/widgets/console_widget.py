@@ -1,16 +1,16 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
+from kivymd.uix.label import MDLabel
+from kivymd.uix.textfield import MDTextField
 
 class ConsoleWidget(BoxLayout):
     def __init__(self, text, id, **kwargs):
         super(ConsoleWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
         
-        self.label = Label(text=text, size_hint=(1, 0.1), font_size='18sp')
+        self.label = MDLabel(text=text, size_hint=(1, 0.1), font_size='18sp')
         self.id = id
 
-        self.content = TextInput(
+        self.content = MDTextField(
             multiline=True,
             readonly=True,
             font_size='16sp',

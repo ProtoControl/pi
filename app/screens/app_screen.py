@@ -1,5 +1,5 @@
 import json
-from kivy.uix.screenmanager import Screen
+from kivymd.uix.screen import MDScreen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.clock import Clock
@@ -10,7 +10,7 @@ from widgets.slider_widget import SliderWidget
 from widgets.toggle_widget import ToggleButtonWidget
 from utils.helpers import hex_to_rgba
 
-class MyAppScreen(Screen):
+class MyAppScreen(MDScreen):
     def __init__(self, **kwargs):
         super(MyAppScreen, self).__init__(**kwargs)
         self.name = "myapp_screen"

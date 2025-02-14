@@ -1,27 +1,29 @@
 import json
-from kivy.uix.screenmanager import Screen
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.button import Button
-from kivy.uix.scrollview import ScrollView
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.label import MDLabel
+from kivymd.uix.button.button import MDButton, MDButtonText
+from kivymd.uix.scrollview import ScrollView
 from kivy.uix.textinput import TextInput
+from kivymd.uix.textfield import MDTextField
 import requests
 from utils.graybox import GrayBox
-from kivy.uix.gridlayout import GridLayout
+from kivymd.uix.gridlayout import GridLayout
 from utils.platform_utils import PlatformUtils
 
 platform_utils = PlatformUtils()
 code = platform_utils.generate_alphanumeric_code()
 
-class ConfigScreen(Screen):
+class ConfigScreen(MDScreen):
     def __init__(self, **kwargs):
         super(ConfigScreen, self).__init__(**kwargs)
+        print("ConfigScreen")
         self.name = "config_screen"  # ScreenManager reference name
         
-        main_layout = BoxLayout(orientation='horizontal', spacing=10, padding=10)
+        main_layout = MDBoxLayout(orientation='horizontal', spacing=10, padding=10)
 
         # LEFT SIDE
-        left_layout = BoxLayout(orientation='vertical', spacing=10, size_hint=(0.3, 1))
+        left_layout = MDBoxLayout(orientation='vertical', spacing=10, size_hint=(0.3, 1))
         
         # Device Info
         device_info_container = GrayBox(orientation='vertical', size_hint=(1, 3), padding=10, spacing=5)
@@ -29,7 +31,7 @@ class ConfigScreen(Screen):
 
         #Code generation
         
-        device_info_box.add_widget(Label(
+        device_info_box.add_widget(MDLabel(
             text="Device Info",
             font_size="20sp",
             bold=True,
@@ -39,48 +41,47 @@ class ConfigScreen(Screen):
         with open("settings.json","r") as save:
             data = save.read()
             data = json.loads(data)
-        device_info_box.add_widget(Label(text="Name: MyDevice", color=(0, 0, 0, 1)))
-        device_info_box.add_widget(Label(text=f"Registration Code: {data['registrationId']}", color=(0, 0, 0, 1)))
-        device_info_box.add_widget(Label(text = "Serial Number:",color=(0,0,0,1)))
-        device_info_box.add_widget(Label(text = f"{data['serialNumber']}",color=(0,0,0,1)))
-        device_info_box.add_widget(Label(text=f"Firmware: {data['version']}", color=(0, 0, 0, 1)))
-        device_info_box.add_widget(Label(text=f"Status: {data['deviceStatus']}", color=(0, 0, 0, 1)))
-        device_info_box.add_widget(Label(text=f"User: {data['User']}", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(MDLabel(text="Name: MyDevice", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(MDLabel(text=f"Registration Code: {data['registrationId']}", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(MDLabel(text = "Serial Number:",color=(0,0,0,1)))
+        device_info_box.add_widget(MDLabel(text = f"{data['serialNumber']}",color=(0,0,0,1)))
+        device_info_box.add_widget(MDLabel(text=f"Firmware: {data['version']}", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(MDLabel(text=f"Status: {data['deviceStatus']}", color=(0, 0, 0, 1)))
+        device_info_box.add_widget(MDLabel(text=f"User: {data['User']}", color=(0, 0, 0, 1)))
 
 
         device_info_container.add_widget(device_info_box)
         left_layout.add_widget(device_info_container)
 
-        filler_box = BoxLayout(size_hint=(1, 1))
+        filler_box = MDBoxLayout(size_hint=(1, 1))
         left_layout.add_widget(filler_box)
 
         # Buttons
-        buttons_layout = BoxLayout(orientation='vertical', spacing=10, size_hint=(1, None))
+        buttons_layout = MDBoxLayout(orientation='vertical', spacing=10, size_hint=(1, None))
 
-        layout_button = Button(
-            text="Fetch Layout",
+        layout_button = MDButton(
+            MDButtonText(text="Fetch Layout", text_color=(1, 0, 0, 1)),
             size_hint=(1,None),
             height = 50
         )
         layout_button.bind(on_press=self.fetch_button)
         buttons_layout.add_widget(layout_button)
 
-        wifi_button = Button(
-            text="Connect to Wi-Fi",
-            size_hint=(1, None),
+        wifi_button = MDButton(
+            MDButtonText(text="Connect to Wi-Fi", text_color=(1, 0, 0, 1)),
+            size_hint=(None, None),
             height=50,
-            background_color=(0, 0, 0, 1),
-            color=(1, 1, 1, 1),
+            md_bg_color=(0, 0, 0, 1),
         )
         wifi_button.bind(on_press=self.launch_wifi_screen)
         buttons_layout.add_widget(wifi_button)
 
-        cancel_button = Button(
-            text="Cancel",
+        cancel_button = MDButton(
+            MDButtonText(text="Cancel", text_color=(1, 0, 1, 1)),
+            style="filled",
             size_hint=(1, None),
             height=50,
-            #background_color=(0, 0, 0, 1),
-            color=(1, 1, 1, 1),
+            md_bg_color=(0, 0, 0, 1),
         )
         cancel_button.bind(on_press=self.launch_my_app_screen)
         buttons_layout.add_widget(cancel_button)
@@ -90,8 +91,8 @@ class ConfigScreen(Screen):
         main_layout.add_widget(left_layout)
 
         # RIGHT SIDE: Serial Console
-        right_layout = BoxLayout(orientation='vertical', spacing=10, size_hint=(0.7, 1))
-        console_label = Label(
+        right_layout = MDBoxLayout(orientation='vertical', spacing=10, size_hint=(0.7, 1))
+        console_label = MDLabel(
             text="Serial Console",
             font_size="20sp",
             bold=True,
@@ -129,7 +130,7 @@ class ConfigScreen(Screen):
     @classmethod
     def fetch_layout(self):
         # Example GET request to fetch layout
-        url = "https://protocontrol.dev/builder/get-most-recent-layout"
+        url = "https://protocontrol.dev/api/builder/get-most-recent-layout"
         #self.main_layout.clear_widgets()
 
         try:

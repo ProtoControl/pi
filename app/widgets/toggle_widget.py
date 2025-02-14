@@ -1,7 +1,10 @@
-from kivy.uix.togglebutton import ToggleButton
+from kivymd.uix.behaviors.toggle_behavior import ToggleButtonBehavior
+from kivymd.uix.button import MDFabButton
 
-class ToggleButtonWidget(ToggleButton):
+class ToggleButtonWidget(MDFabButton, ToggleButtonBehavior):
     def __init__(self,id,text, **kwargs):
+        print("Test")
+        print(dict(**kwargs))
         super(ToggleButtonWidget, self).__init__(**kwargs)
         self.state = 'normal'
         self.id = id

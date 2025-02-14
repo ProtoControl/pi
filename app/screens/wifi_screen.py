@@ -1,8 +1,10 @@
-from kivy.uix.screenmanager import Screen
-from kivy.uix.boxlayout import BoxLayout
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.uix.spinner import Spinner
+from kivymd.uix.textfield import MDTextField
 from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
+
+from kivymd.uix.button import MDButton, MDButtonText
 import subprocess
 from utils.platform_utils import PlatformUtils
 from kivy.core.window import Window
@@ -10,7 +12,7 @@ from kivy.core.window import Window
 platform_utils = PlatformUtils()
 debug_mode = platform_utils.debug_mode
 
-class WiFiScreen(Screen):
+class WiFiScreen(MDScreen):
     def __init__(self, **kwargs):
         super(WiFiScreen, self).__init__(**kwargs)
         self.name = "wifi_screen"
@@ -20,7 +22,7 @@ class WiFiScreen(Screen):
         self.keyboard_layout = None
 
         # Root layout
-        self.root_layout = BoxLayout(orientation="vertical", spacing=10, padding=10)
+        self.root_layout = MDBoxLayout(orientation="vertical", spacing=10, padding=10)
 
         # Wi-Fi network selection
         self.network_spinner = Spinner(
@@ -44,21 +46,21 @@ class WiFiScreen(Screen):
         self.root_layout.add_widget(self.text_input)
 
         # Button layout
-        button_layout = BoxLayout(size_hint=(1, 0.1), spacing=10)
+        button_layout = MDBoxLayout(size_hint=(1, 0.1), spacing=10)
 
         # Cancel Button
-        cancel_button = Button(text = "Cancel", on_press=self.on_cancel)
+        cancel_button = MDButton(MDButtonText("Cancel"), on_press=self.on_cancel)
         button_layout.add_widget(cancel_button)
         # Show/hide password button
-        show_pwd = Button(text="Show Password", on_press=self.on_show)
+        show_pwd = MDButton(MDButtonText("Show Password"), on_press=self.on_show)
         button_layout.add_widget(show_pwd)
 
         # Clear button
-        clear_button = Button(text="Clear", on_press=self.on_clear)
+        clear_button = MDButton(MDButtonText("Clear"), on_press=self.on_clear)
         button_layout.add_widget(clear_button)
 
         # Connect button
-        self.connect_button = Button(text="Connect", on_press=self.on_connect)
+        self.connect_button = MDButton(MDButtonText("Connect"), on_press=self.on_connect)
         button_layout.add_widget(self.connect_button)
 
         # Add button layout to root

@@ -5,11 +5,12 @@ import requests
 import sys
 
 import kivy
-from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivymd.uix.textfield import MDTextField
 from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
+from kivymd.uix.button import MDButton, MDButtonText
 
 
 import hashlib
@@ -103,6 +104,7 @@ def generate_serial_number(prefix: str = "DEV", random_length: int = 6) -> str:
 
 class MyWidget(BoxLayout):
     def __init__(self, **kwargs):
+        print("MyWidget __init__")
         super(MyWidget, self).__init__(**kwargs)
         self.orientation = "vertical"
 
@@ -164,7 +166,7 @@ class MyWidget(BoxLayout):
         self.add_widget(row_version)
 
         # "Send" button
-        send_button = Button(text="Send")
+        send_button = MDButton(MDButtonText("Send"))
         send_button.bind(on_press=self.send_values_to_console)
         self.add_widget(send_button)
 
@@ -210,7 +212,7 @@ class MyWidget(BoxLayout):
         print("Payload written to settings.txt:")
         print(json.dumps(payload, indent=4))
 
-class MyApp(App):
+class MyApp(MDApp):
     def build(self):
         return MyWidget()
 

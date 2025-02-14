@@ -1,14 +1,14 @@
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.slider import Slider
-from kivy.uix.label import Label
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.slider import MDSlider
+from kivymd.uix.label import MDLabel
 
 
-class SliderWidget(BoxLayout):
+class SliderWidget(MDBoxLayout):
     def __init__(self, text, min, max, id,**kwargs):
         super(SliderWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
 
-        self.slider = Slider(min=min, max=max, value=min)
+        self.slider = MDSlider(min=min, max=max, value=min)
         self.slider.orientation = 'horizontal'
         self.slider.value_track = True
         self.slider.value_track_color = [1, 0, 0, 1]
@@ -17,7 +17,7 @@ class SliderWidget(BoxLayout):
         self.slider.max = max
         self.slider.id = id
 
-        self.value_label = Label(text=f"{text}", size_hint=(1, 0.2), font_size='40sp')
+        self.value_label = MDLabel(text=f"{text}", size_hint=(1, 0.2), font_size='40sp')
         self.slider.bind(value=self.on_value_change)
 
         self.add_widget(self.value_label)

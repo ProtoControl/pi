@@ -1,6 +1,6 @@
 from kivy.config import Config
 Config.set('kivy', 'keyboard_mode', 'dock')
-from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from screens.config_screen import ConfigScreen
 from screens.wifi_screen import WiFiScreen
@@ -18,7 +18,7 @@ debug_mode = platform_utils.debug_mode
 
 platform_utils.setup_platform_specifics()
 
-class CombinedApp(App):
+class CombinedApp(MDApp):
 
     def build(self):
         self.sm = ScreenManager(transition=FadeTransition())
@@ -31,6 +31,7 @@ class CombinedApp(App):
         ConfigScreen.fetch_layout()
         self.sm.current = "config_screen"  # Start on config screen
         Clock.schedule_interval(self.poll_gpio_button, self.polling_interval)
+        print("CombinedApp build")
         return self.sm
     
     def poll_gpio_button(self, dt):
