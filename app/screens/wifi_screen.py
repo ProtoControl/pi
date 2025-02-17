@@ -49,18 +49,18 @@ class WiFiScreen(MDScreen):
         button_layout = MDBoxLayout(size_hint=(1, 0.1), spacing=10)
 
         # Cancel Button
-        cancel_button = MDButton(MDButtonText("Cancel"), on_press=self.on_cancel)
+        cancel_button = MDButton(MDButtonText(text="Cancel"), on_press=self.on_cancel)
         button_layout.add_widget(cancel_button)
         # Show/hide password button
-        show_pwd = MDButton(MDButtonText("Show Password"), on_press=self.on_show)
+        show_pwd = MDButton(MDButtonText(text="Show Password"), on_press=self.on_show)
         button_layout.add_widget(show_pwd)
 
         # Clear button
-        clear_button = MDButton(MDButtonText("Clear"), on_press=self.on_clear)
+        clear_button = MDButton(MDButtonText(text="Clear"), on_press=self.on_clear)
         button_layout.add_widget(clear_button)
 
         # Connect button
-        self.connect_button = MDButton(MDButtonText("Connect"), on_press=self.on_connect)
+        self.connect_button = MDButton(MDButtonText(text="Connect"), on_press=self.on_connect)
         button_layout.add_widget(self.connect_button)
 
         # Add button layout to root
