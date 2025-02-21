@@ -58,13 +58,16 @@ class MyAppScreen(MDScreen):
 
             pos_hint = {'x': pos_hint_x, 'y': pos_hint_y}
             size_hint = (size_hint_w, size_hint_h)
-            color = hex_to_rgba(component_data.get('primaryColor', '#ffffff'))
-
+            color = hex_to_rgba(component_data.get('primaryColor','#FFFFF'))
+            print(color)
+            scolor = hex_to_rgba(component_data.get('secondaryColor','#FFFFF'))
+            print(scolor)
             widget = None
             if compType == "Button":
                 widget = PushButton(
                     text=str(text),
                     id=str(comp_id),
+                    scolor = scolor,
                     color=color,
                     size_hint=size_hint,
                     pos_hint=pos_hint

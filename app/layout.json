@@ -1,1 +1,14 @@
-[]
+[
+    {
+        "h": 1,
+        "id": 111,
+        "label": "RED bg",
+        "primaryColor": "#ff0000",
+        "referenceID": "0",
+        "secondaryColor": "#0080c0",
+        "type": "Button",
+        "w": 1,
+        "x": 1,
+        "y": 1
+    }
+]

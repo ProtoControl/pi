@@ -24,7 +24,7 @@ class CombinedApp(MDApp):
         self.sm = MDScreenManager()
         self.polling_interval = 0.01
         #self.theme_cls.theme_style = "Dark"
-        #self.theme_cls.primary_palette = "Olive"  # "Purple", "Red"
+        self.theme_cls.primary_palette = "Grey"  # "Purple", "Red"
         # Add screens
         self.sm.add_widget(ConfigScreen())
         self.sm.add_widget(WiFiScreen())
