@@ -76,6 +76,8 @@ class MyAppScreen(MDScreen):
                 widget = ToggleButtonWidget(
                     text=str(text),
                     id=str(comp_id),
+                    scolor = scolor,
+                    color=color,
                     size_hint=size_hint,
                     pos_hint=pos_hint
                 )
@@ -87,6 +89,7 @@ class MyAppScreen(MDScreen):
                     min=min_v,
                     max=max_v,
                     id=str(comp_id),
+                    pcolor=color,
                     size_hint=size_hint,
                     pos_hint=pos_hint
                 )

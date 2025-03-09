@@ -3,7 +3,7 @@ from kivymd.uix.slider import MDSlider, MDSliderHandle, MDSliderValueLabel
 from kivymd.uix.label import MDLabel
 
 class SliderWidget(MDBoxLayout):
-    def __init__(self, text, min, max, id, **kwargs):
+    def __init__(self, text, min, max, id, pcolor,**kwargs):
         super(SliderWidget, self).__init__(**kwargs)
         self.orientation = 'vertical'
         self.value_label = MDLabel(
@@ -24,9 +24,7 @@ class SliderWidget(MDBoxLayout):
             max=max,
             value=min
         )
-        self.slider.orientation = 'horizontal'
-        self.slider.value_track = True
-        self.slider.value_track_color = [1, 0, 0, 1]
+        self.slider.track_active_color = pcolor
         self.slider.min = min
         self.slider.max = max
         self.slider.id = id
