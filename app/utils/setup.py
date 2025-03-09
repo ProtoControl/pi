@@ -194,7 +194,7 @@ class MyWidget(BoxLayout):
         
         devType = self.devType_var
         version = self.version_var
-        registrationId = "123333"
+        #registrationId = "123333"
 
         payload = {
             "devType": devType,
