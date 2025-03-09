@@ -15,11 +15,12 @@ platform_utils = PlatformUtils()
 code = platform_utils.generate_alphanumeric_code()
 
 class ConfigScreen(MDScreen):
+    regId = None
     def __init__(self, **kwargs):
         super(ConfigScreen, self).__init__(**kwargs)
         print("ConfigScreen")
         self.name = "config_screen"  # ScreenManager reference name
-        
+   
         main_layout = MDBoxLayout(orientation='horizontal', spacing=10, padding=10)
 
         # LEFT SIDE
@@ -50,6 +51,8 @@ class ConfigScreen(MDScreen):
         device_info_box.add_widget(MDLabel(text=f"Status: {data['deviceStatus']}", color=(0, 0, 0, 1)))
         device_info_box.add_widget(MDLabel(text=f"User: {data['User']}", color=(0, 0, 0, 1)))
 
+
+        self.regId = data['registrationId']
 
         device_info_container.add_widget(device_info_box)
         left_layout.add_widget(device_info_container)
@@ -133,11 +136,9 @@ class ConfigScreen(MDScreen):
         # Example GET request to fetch layout
         url = "https://protocontrol.dev/api/builder/get-most-recent-layout"
         #self.main_layout.clear_widgets()
-        # with open("settings.json", "r") as local:
-        #     settings = json.load(local)
-        #     device_id = settings.get("registrationId", "default_device_id")  # Provide a fallback id
+       
 
-        headers = {"deviceid": "1234"}  # Add your actual device ID
+        headers = {"registrationId": f"{self.regId}"}  # Add your actual device ID
         try:
             response = requests.get(url, headers=headers )
             response.raise_for_status()

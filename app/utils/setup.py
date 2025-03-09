@@ -185,7 +185,7 @@ class MyWidget(BoxLayout):
         print(f"devType: {self.devType_var}")
         print(f"version: {self.version_var}")
 
-        url = "http://127.0.0.1:5000/users/initialize-device"#https://protocontrol.dev/users/initialize-device"
+        url = "https://protocontrol.dev/users/initialize-device"
 
         serialNumber = generate_serial_number(prefix="TEST")
         registrationId = generate_alphanumeric_code()
