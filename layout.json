@@ -1,0 +1,28 @@
+[
+    {
+        "h": 1,
+        "id": 8,
+        "initialState": false,
+        "label": "",
+        "primaryColor": "#FFFFFF",
+        "referenceID": "0",
+        "secondaryColor": "#FFFFFF",
+        "type": "Toggle",
+        "w": 1,
+        "x": 2,
+        "y": 3
+    },
+    {
+        "h": 1,
+        "id": 31,
+        "initialState": false,
+        "label": "opsite",
+        "primaryColor": "#ff0000",
+        "referenceID": "0",
+        "secondaryColor": "#00ff00",
+        "type": "Toggle",
+        "w": 1,
+        "x": 7,
+        "y": 2
+    }
+]

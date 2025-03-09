@@ -1,6 +1,6 @@
 {
     "serialNumber": "TEST-250203205609-G6NEQ3",
-    "registrationId": null,
+    "registrationId": 123456,
     "User": "debig\t",
     "deviceStatus": "built",
     "deviceName": "none",

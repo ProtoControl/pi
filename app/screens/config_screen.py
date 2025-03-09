@@ -133,13 +133,17 @@ class ConfigScreen(MDScreen):
         # Example GET request to fetch layout
         url = "https://protocontrol.dev/api/builder/get-most-recent-layout"
         #self.main_layout.clear_widgets()
+        # with open("settings.json", "r") as local:
+        #     settings = json.load(local)
+        #     device_id = settings.get("registrationId", "default_device_id")  # Provide a fallback id
 
+        headers = {"deviceid": "1234"}  # Add your actual device ID
         try:
-            response = requests.get(url)
+            response = requests.get(url, headers=headers )
             response.raise_for_status()
             data = response.json()
             print(data)
-            
+           
             with open("layout.json","w") as save:
                 print("writing")
                 json.dump(data, save, indent=4)
