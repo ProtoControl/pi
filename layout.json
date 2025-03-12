@@ -1,0 +1,57 @@
+[
+    {
+        "h": 1,
+        "id": 138,
+        "label": "",
+        "primaryColor": "#FFFFFF",
+        "referenceID": "0",
+        "secondaryColor": "#FFFFFF",
+        "type": "Button",
+        "w": 1,
+        "x": 3,
+        "y": 0
+    },
+    {
+        "h": 1,
+        "id": 70,
+        "initialValue": 0,
+        "isVertical": false,
+        "label": "",
+        "max": 100,
+        "min": 0,
+        "primaryColor": "#FFFFFF",
+        "referenceID": "0",
+        "secondaryColor": "#FFFFFF",
+        "type": "Slider",
+        "valueTracking": false,
+        "w": 1,
+        "x": 8,
+        "y": 2
+    },
+    {
+        "doWordwrap": false,
+        "h": 1,
+        "id": 37,
+        "label": "",
+        "primaryColor": "#FFFFFF",
+        "referenceID": "0",
+        "secondaryColor": "#FFFFFF",
+        "type": "Console",
+        "w": 1,
+        "x": 2,
+        "y": 4
+    },
+    {
+        "h": 1,
+        "id": 36,
+        "initialState": false,
+        "label": "dW",
+        "primaryColor": "#004080",
+        "referenceID": "0",
+        "secondaryColor": "#FFFFFF",
+        "type": "Toggle",
+        "w": 1,
+        "x": 4,
+        "y": 3
+    }
+]

@@ -1,5 +1,5 @@
 import json
-from kivy.uix.screenmanager import Screen
+from kivymd.uix.screen import MDScreen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.clock import Clock
@@ -10,7 +10,8 @@ from widgets.slider_widget import SliderWidget
 from widgets.toggle_widget import ToggleButtonWidget
 from utils.helpers import hex_to_rgba
 
-class MyAppScreen(Screen):
+from kivymd.uix.button import button
+class MyAppScreen(MDScreen):
     def __init__(self, **kwargs):
         super(MyAppScreen, self).__init__(**kwargs)
         self.name = "myapp_screen"
@@ -57,13 +58,16 @@ class MyAppScreen(Screen):
 
             pos_hint = {'x': pos_hint_x, 'y': pos_hint_y}
             size_hint = (size_hint_w, size_hint_h)
-            color = hex_to_rgba(component_data.get('primaryColor', '#ffffff'))
-
+            color = hex_to_rgba(component_data.get('primaryColor','#FFFFF'))
+            print(color)
+            scolor = hex_to_rgba(component_data.get('secondaryColor','#FFFFF'))
+            print(scolor)
             widget = None
             if compType == "Button":
                 widget = PushButton(
                     text=str(text),
                     id=str(comp_id),
+                    scolor = scolor,
                     color=color,
                     size_hint=size_hint,
                     pos_hint=pos_hint
@@ -72,6 +76,8 @@ class MyAppScreen(Screen):
                 widget = ToggleButtonWidget(
                     text=str(text),
                     id=str(comp_id),
+                    scolor = scolor,
+                    color=color,
                     size_hint=size_hint,
                     pos_hint=pos_hint
                 )
@@ -83,6 +89,7 @@ class MyAppScreen(Screen):
                     min=min_v,
                     max=max_v,
                     id=str(comp_id),
+                    pcolor=color,
                     size_hint=size_hint,
                     pos_hint=pos_hint
                 )
