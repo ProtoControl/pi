@@ -1,0 +1,28 @@
+[
+    {
+        "h": 1,
+        "id": 37,
+        "initialState": false,
+        "label": "",
+        "primaryColor": "#FFFFFF",
+        "referenceID": "0",
+        "secondaryColor": "#FFFFFF",
+        "type": "Toggle",
+        "w": 1,
+        "x": 3,
+        "y": 2
+    },
+    {
+        "h": 1,
+        "id": 38,
+        "initialState": false,
+        "label": "",
+        "primaryColor": "#008000",
+        "referenceID": "0",
+        "secondaryColor": "#00ff40",
+        "type": "Toggle",
+        "w": 1,
+        "x": 8,
+        "y": 2
+    }
+]
