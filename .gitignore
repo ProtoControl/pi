@@ -1,5 +1,5 @@
 # Ignore all JSON files
-.json
+*.json
 # Ignore Python bytecode files
 *.pyc
 __pycache__/
