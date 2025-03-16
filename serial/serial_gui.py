@@ -7,11 +7,10 @@ import struct
 import cobs.cobs as cobs
 import threading
 import time
-import os
 
 # Serial communication setup
-SERIAL_PORT = "/dev/pts/2"  # Must match socat link
-BAUD_RATE = 9600
+SERIAL_PORT = "/dev/ttyACM0"  # Must match socat link
+BAUD_RATE = 115200
 
 def crc16(data: bytes) -> int:
     crc = 0xFFFF
@@ -30,6 +29,16 @@ def encode_message(data: dict) -> bytes:
     crc = crc16(encoded)  # Compute CRC
     return encoded + struct.pack(">H", crc)  # Append CRC
 
+def decode_message(encoded_msg: bytes) -> dict:
+    try:
+        decoded = cobs.decode(encoded_msg[:-2])  # Remove CRC before decoding
+        crc_received = struct.unpack(">H", encoded_msg[-2:])[0]
+        crc_calculated = crc16(encoded_msg[:-2])
+        if crc_received != crc_calculated:
+            return {"error": "CRC mismatch"}
+        return msgpack.unpackb(decoded, raw=False)
+    except Exception as e:
+        return {"error": str(e)}
 
 def send_message():
     msg = entry.get()
@@ -44,17 +53,14 @@ def send_message():
 def receive_messages():
     while True:
         try:
-            # Read from the log file
-            with open("/tmp/c_output.log", "r") as f:
-                lines = f.readlines()
-            
-            if lines:
-                for line in lines[-10:]:  # Only process the last 10 messages
-                    recv_text.insert(tk.END, f"{line.strip()}\n")
-                    recv_text.see(tk.END)
-
-            time.sleep(1)
-
+            if ser.in_waiting > 0:
+                received_data = ser.read(ser.in_waiting)
+                recv_text.insert(tk.END, f"Received: {received_data.hex()}\n")
+                recv_text.see(tk.END)
+                decoded_msg = decode_message(received_data)
+                decoded_text.insert(tk.END, f"Decoded: {decoded_msg}\n")
+                decoded_text.see(tk.END)
+            time.sleep(0.1)
         except Exception as e:
             recv_text.insert(tk.END, f"Error: {e}\n")
 
@@ -83,7 +89,11 @@ recv_text = scrolledtext.ScrolledText(root, width=60, height=10)
 recv_text.pack(pady=5)
 recv_text.insert(tk.END, "Received Messages:\n")
 
-# Start a thread to continuously read messages from the C program
+decoded_text = scrolledtext.ScrolledText(root, width=60, height=10)
+decoded_text.pack(pady=5)
+decoded_text.insert(tk.END, "Decoded Messages:\n")
+
+# Start a thread to continuously read messages from the serial port
 threading.Thread(target=receive_messages, daemon=True).start()
 
 root.mainloop()
