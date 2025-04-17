@@ -8,7 +8,7 @@
 #include <msgpack.h>
 #include "cobs.h"
 
-#define SERIAL_PORT "/dev/pts/1"  // Virtual serial port path
+#define SERIAL_PORT "/dev/ttyACM0"  // Virtual serial port path
 #define BUFFER_SIZE 256
 
 int serial_fd;
